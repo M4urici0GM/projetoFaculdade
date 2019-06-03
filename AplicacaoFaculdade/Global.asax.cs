@@ -5,8 +5,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.Routing;
 using System.Web.SessionState;
-
-
+using System.Web.Optimization;
 
 namespace AplicacaoFaculdade
 {
@@ -14,12 +13,12 @@ namespace AplicacaoFaculdade
     {
 
         protected void Application_Start(object sender, EventArgs e) {
-            //RouteConfig.RegisterRoutes(RouteTable.Routes);
-            RegisterRoutes(RouteTable.Routes);
+            RegisterRoutes(RouteTable.Routes);  //Register roject routes
         }
 
         public void RegisterRoutes(RouteCollection route){
-            route.MapPageRoute("home", "", "~/Views/Default.aspx"); //Default project route
+            route.MapPageRoute("home", "", "~/Views/Index.aspx"); //Default project route
+            route.MapPageRoute("login", "login", "~/Views/Login.aspx"); //Default project route
         }
     }
 }

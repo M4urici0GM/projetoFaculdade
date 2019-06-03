@@ -79,15 +79,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Default.aspx" />
+    <Content Include="Cdn\MainStyle.css" />
     <Content Include="Global.asax" />
     <Content Include="Views\Index.aspx" />
     <Content Include="Views\Login.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseContext\UsuarioContext.cs" />
     <Compile Include="Database\Database.cs" />
-    <Compile Include="Global\BundleConfig.cs" />
+    <Compile Include="Global\Crypter.cs" />
     <Compile Include="Global\SessionClass.cs" />
     <Compile Include="Models\Aluno.cs" />
     <Compile Include="Models\Cargo.cs" />
@@ -95,13 +96,6 @@
     <Compile Include="Models\Funcionario.cs" />
     <Compile Include="Models\Pessoa.cs" />
     <Compile Include="Models\Usuario.cs" />
-    <Compile Include="Views\Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Views\Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -121,9 +115,17 @@
     <Compile Include="Views\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Views\template\Admin.Master.cs">
+      <DependentUpon>Admin.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\template\Admin.Master.designer.cs">
+      <DependentUpon>Admin.Master</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Views\template\Admin.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -132,9 +134,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Cdn\" />
-    <Folder Include="DatabaseContext\" />
-    <Folder Include="Views\template\" />
+    <Folder Include="Cdn\Bundles\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

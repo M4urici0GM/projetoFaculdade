@@ -6,7 +6,7 @@ using MySql.Data.MySqlClient;
 using System.Configuration;
 using System.Data;
 
-namespace AplicacaoFaculdade.Database
+namespace AplicacaoFaculdade
 {
     public class Database {
         private static Database databaseInstance = new Database();
@@ -22,9 +22,14 @@ namespace AplicacaoFaculdade.Database
             _mySqlCommand = new MySqlCommand();
             _mySqlConn = new MySqlConnection(_connectionString);
             _mySqlReader = new MySqlDataAdapter();
+            _mySqlConn.Open();
         }
 
-        public DataSet ExecuteSelect(string query) {
+        public MySqlConnection GetConnection () {
+            return this._mySqlConn;
+        }
+
+        public DataSet ExecuteSelect(string query, string[] parameters, string[] paramValues) {
             if (query.Equals(""))
                 throw new ArgumentException("You need first to pass a query to execute this method");
             _mySqlCommand.CommandText = query;
