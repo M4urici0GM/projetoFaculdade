@@ -11,6 +11,7 @@ namespace AplicacaoFaculdade.Models
         public string usuarioSenha { get; set; }
         public int? usuarioFkPessoa { get; set; }
         public bool? usuarioStatus { get; set; }
+        public int? usuarioFkNivelAcesso { get; set; }
 
         public Pessoa pessoa;
         

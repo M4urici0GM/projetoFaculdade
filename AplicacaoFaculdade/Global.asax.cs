@@ -19,6 +19,7 @@ namespace AplicacaoFaculdade
         public void RegisterRoutes(RouteCollection route){
             route.MapPageRoute("home", "", "~/Views/Index.aspx"); //Default project route
             route.MapPageRoute("login", "login", "~/Views/Login.aspx"); //Default project route
+            route.MapPageRoute("usuarios", "usuarios", "~/Views/Usuarios.aspx");
         }
     }
 }

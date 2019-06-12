@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace AplicacaoFaculdade {
@@ -49,7 +50,81 @@ namespace AplicacaoFaculdade {
         }
 
 
+        public Usuario CreateUser(Usuario usuario) {
+            mySqlCommand = new MySqlCommand("SELECT usuarioId, usuarioLogin FROM Usuarios WHERE usuarioLogin = @UserLogin");
+            mySqlCommand.Parameters.AddWithValue("@UserLogin", usuario.usuarioEmail);
+            mySqlDataReader = mySqlCommand.ExecuteReader();
+
+            using (mySqlDataReader) {
+                if (mySqlDataReader.Read()) {
+                    if (!mySqlDataReader.HasRows) {
+                        mySqlCommand = new MySqlCommand("INSERT INTO Usuarios() VALUES (null, @UserLogin, @UserPassword, @UserAccessLevel, null, 1)");
+                        mySqlCommand.Parameters.AddWithValue("@UserLogin", usuario.usuarioEmail);
+                        mySqlCommand.Parameters.AddWithValue("@UserPassword", usuario.usuarioSenha);
+                        mySqlCommand.Parameters.AddWithValue("@UserAccessLevel", usuario.usuarioFkNivelAcesso);
+
+                        int result = mySqlCommand.ExecuteNonQuery();
+                        int userNewId = (int) mySqlCommand.LastInsertedId;
+
+                        mySqlCommand = new MySqlCommand("SELECT * FROM Usuarios WHERE usuarioId = @UserId");
+                        mySqlCommand.Parameters.AddWithValue("@UserId", userNewId);
+
+                        mySqlDataReader = mySqlCommand.ExecuteReader();
+
+                        using (mySqlDataReader) {
+                            if (mySqlDataReader.Read()) {
+                                return new Usuario() {
+                                    usuarioId = mySqlDataReader.GetInt32(0),
+                                    usuarioEmail = mySqlDataReader.GetString(1),
+                                    usuarioSenha = mySqlDataReader.GetString(2),
+                                    usuarioFkNivelAcesso = mySqlDataReader.GetInt32(3),
+                                    usuarioStatus = mySqlDataReader.GetBoolean(5)
+                                };
+                            }
+                            throw new KeyNotFoundException();
+                        }
+
+                    } else {
+                        return new Usuario() {
+                            usuarioId = mySqlDataReader.GetInt32(0),
+                            usuarioEmail = mySqlDataReader.GetString(1)
+                        };
+                    }
+                }
+            }
+            return new Usuario();
+        }
 
 
+        public DataTable GetUsuarios(bool usuarioAtivos = true) {
+            DataTable userDataTable = new DataTable();
+            mySqlCommand = new MySqlCommand("SELECT * FROM Usuarios WHERE usuarioStatus = @UserStatus");
+            mySqlCommand.Parameters.AddWithValue("@UserStatus", usuarioAtivos);
+            mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            using (mySqlDataAdapter) {
+                mySqlDataAdapter.Fill(userDataTable);
+                return userDataTable;
+            }
+        }
+
+        public Usuario GetUsuarios(int usuarioId) {
+            mySqlCommand = new MySqlCommand("SELECT * FROM Usuarios WHERE usuarioId = @UserId");
+            mySqlCommand.Parameters.AddWithValue("@UserId", usuarioId);
+
+            mySqlDataReader = mySqlCommand.ExecuteReader();
+
+            using (mySqlDataReader) {
+                if (mySqlDataReader.Read()) {
+                    return new Usuario() {
+                        usuarioId = mySqlDataReader.GetInt32(0),
+                        usuarioEmail = mySqlDataReader.GetString(1),
+                        usuarioSenha = mySqlDataReader.GetString(2),
+                        usuarioFkNivelAcesso = mySqlDataReader.GetInt32(3),
+                        usuarioStatus = mySqlDataReader.GetBoolean(5)
+                    };
+                }
+                throw new KeyNotFoundException();
+            }
+        }
     }
 }

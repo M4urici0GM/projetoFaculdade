@@ -8,7 +8,11 @@ using System.Web.UI.WebControls;
 namespace AplicacaoFaculdade.Views.template {
     public partial class Site1 : System.Web.UI.MasterPage {
         protected void Page_Load(object sender, EventArgs e) {
+            var session = Session["usuarioLogin"];
 
+            if (session == null) {
+                Response.RedirectToRoute("login");
+            }
         }
 
         public void DoLogout(object sender, EventArgs e) {
