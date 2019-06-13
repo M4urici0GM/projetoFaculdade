@@ -81,7 +81,7 @@ namespace AplicacaoFaculdade {
                                     usuarioStatus = mySqlDataReader.GetBoolean(5)
                                 };
                             }
-                            throw new KeyNotFoundException();
+                            throw new Exception("User not found");
                         }
 
                     } else {
@@ -98,7 +98,7 @@ namespace AplicacaoFaculdade {
 
         public DataTable GetUsuarios(bool usuarioAtivos = true) {
             DataTable userDataTable = new DataTable();
-            mySqlCommand = new MySqlCommand("SELECT * FROM Usuarios WHERE usuarioStatus = @UserStatus");
+            mySqlCommand = new MySqlCommand("SELECT * FROM Usuarios left join pessoas on usuarioFkPessoa = pessoaId WHERE usuarioStatus = @UserStatus", databaseConn);
             mySqlCommand.Parameters.AddWithValue("@UserStatus", usuarioAtivos);
             mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             using (mySqlDataAdapter) {
@@ -108,7 +108,7 @@ namespace AplicacaoFaculdade {
         }
 
         public Usuario GetUsuarios(int usuarioId) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Usuarios WHERE usuarioId = @UserId");
+            mySqlCommand = new MySqlCommand("SELECT * FROM Usuarios left join pessoas on usuarioFkPessoa = pessoaId WHERE usuarioId = @UserId");
             mySqlCommand.Parameters.AddWithValue("@UserId", usuarioId);
 
             mySqlDataReader = mySqlCommand.ExecuteReader();
@@ -124,6 +124,15 @@ namespace AplicacaoFaculdade {
                     };
                 }
                 throw new KeyNotFoundException();
+            }
+        }
+
+        public bool DeleteUser(Usuario usuario) {
+            mySqlCommand = new MySqlCommand("UPDATE Usuarios SET usuarioStatus = @UserStatus WHERE usuarioId = @UserId");
+            mySqlCommand.Parameters.AddWithValue("@UserStatus", 0);
+            mySqlCommand.Parameters.AddWithValue("@UserId", usuario.usuarioId);
+            using (mySqlCommand) {
+                return (mySqlCommand.ExecuteNonQuery() > 0);
             }
         }
     }
