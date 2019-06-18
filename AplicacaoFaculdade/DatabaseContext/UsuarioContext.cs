@@ -83,7 +83,6 @@ namespace AplicacaoFaculdade {
                             }
                             throw new Exception("User not found");
                         }
-
                     } else {
                         return new Usuario() {
                             usuarioId = mySqlDataReader.GetInt32(0),
