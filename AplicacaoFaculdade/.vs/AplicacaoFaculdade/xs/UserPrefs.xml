@@ -1,0 +1,22 @@
+﻿<Properties StartupConfiguration="{CF033A3B-2B28-4DBB-B04E-44D2B36E073A}|">
+  <MonoDevelop.Ide.ItemProperties.AplicacaoFaculdade PreferredExecutionTarget="/usr/bin/google-chrome-stable" />
+  <MonoDevelop.Ide.Workbench>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="AplicacaoFaculdade" expanded="True">
+            <Node name="AplicacaoFaculdade" expanded="True">
+              <Node name="DatabaseContext" expanded="True" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

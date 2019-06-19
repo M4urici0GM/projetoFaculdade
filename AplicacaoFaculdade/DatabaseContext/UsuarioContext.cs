@@ -97,7 +97,7 @@ namespace AplicacaoFaculdade {
 
         public DataTable GetUsuarios(bool usuarioAtivos = true) {
             DataTable userDataTable = new DataTable();
-            mySqlCommand = new MySqlCommand("SELECT * FROM Usuarios left join pessoas on usuarioFkPessoa = pessoaId WHERE usuarioStatus = @UserStatus", databaseConn);
+            mySqlCommand = new MySqlCommand("SELECT * FROM Usuarios left join Pessoas on usuarioFkPessoa = pessoaId WHERE usuarioStatus = @UserStatus", databaseConn);
             mySqlCommand.Parameters.AddWithValue("@UserStatus", usuarioAtivos);
             mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             using (mySqlDataAdapter) {
