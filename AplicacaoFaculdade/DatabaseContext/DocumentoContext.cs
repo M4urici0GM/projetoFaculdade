@@ -110,6 +110,24 @@ namespace AplicacaoFaculdade.DatabaseContext {
                 return (mySqlCommand.ExecuteNonQuery() > 0);
             }
         }
-    }
 
+
+        public bool DeleteDocumento(Documento documento) {
+            string query = "UPDATE Documentos SET documentoStatus = 0 WHERE documentoId = @DocumentoId";
+            mySqlCommand = new MySqlCommand(query, database);
+            mySqlCommand.Parameters.AddWithValue("@DocumentoId", documento.documentoId);
+            using (mySqlCommand) {
+                return (mySqlCommand.ExecuteNonQuery() > 0);
+            }
+        }
+
+        public bool DeleteDocumentoTipo(Documento documento) {
+            string query = "UPDATE TiposDocumento SET tipoDocumentoStatus = 0 WHERE tipoDocumentoId = @TipoDocumentoId";
+            mySqlCommand = new MySqlCommand(query, database);
+            mySqlCommand.Parameters.AddWithValue("@TipoDocumentoId", database);
+            using (mySqlCommand) {
+                return (mySqlCommand.ExecuteNonQuery() > 0);
+            }
+        }
+    }
 }

@@ -136,6 +136,16 @@
     <Compile Include="DatabaseContext\DocumentoContext.cs" />
     <Compile Include="Models\Documento.cs" />
     <Compile Include="Models\DocumentoTipo.cs" />
+    <Compile Include="DatabaseContext\TelefoneContext.cs" />
+    <Compile Include="Models\Telefone.cs" />
+    <Compile Include="Models\TiposTelefone.cs" />
+    <Compile Include="Models\Contrato.cs" />
+    <Compile Include="Models\Servico.cs" />
+    <Compile Include="Models\PrecoServico.cs" />
+    <Compile Include="Models\Movimento.cs" />
+    <Compile Include="Models\Conta.cs" />
+    <Compile Include="Models\DataLog.cs" />
+    <Compile Include="Models\NivelAcesso.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

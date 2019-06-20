@@ -32,17 +32,13 @@ namespace AplicacaoFaculdade {
             using (mySqlDataReader) {
                 if ( mySqlDataReader.Read() ) {
                     if ( mySqlDataReader.HasRows ) {
-
-
                         Usuario usuario = new Usuario(new Pessoa() { pessoaId = mySqlDataReader.GetInt32(3), pessoaNome = mySqlDataReader.GetString(4) }) {
                             usuarioId = mySqlDataReader.GetInt32(0),
                             usuarioEmail = mySqlDataReader.GetString(1),
                             usuarioSenha = mySqlDataReader.GetString(2),
                             usuarioFkPessoa = mySqlDataReader.GetInt32(3)
                         };
-
                         return usuario;
-
                     }
                 }
             }
@@ -83,12 +79,11 @@ namespace AplicacaoFaculdade {
                             }
                             throw new Exception("User not found");
                         }
-                    } else {
-                        return new Usuario() {
-                            usuarioId = mySqlDataReader.GetInt32(0),
-                            usuarioEmail = mySqlDataReader.GetString(1)
-                        };
                     }
+                    return new Usuario() {
+                        usuarioId = mySqlDataReader.GetInt32(0),
+                        usuarioEmail = mySqlDataReader.GetString(1)
+                    };
                 }
             }
             return new Usuario();

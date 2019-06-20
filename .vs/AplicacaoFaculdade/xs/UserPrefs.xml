@@ -1,25 +1,16 @@
 ﻿<Properties StartupConfiguration="{CF033A3B-2B28-4DBB-B04E-44D2B36E073A}|">
   <MonoDevelop.Ide.ItemProperties.AplicacaoFaculdade PreferredExecutionTarget="/usr/bin/google-chrome-stable" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="AplicacaoFaculdade/Models/DocumentoTipo.cs">
-    <Files>
-      <File FileName="AplicacaoFaculdade/DatabaseContext/PessoaContext.cs" Line="18" Column="1" />
-      <File FileName="AplicacaoFaculdade/Web.config" Line="8" Column="96" />
-      <File FileName="AplicacaoFaculdade/DatabaseContext/UsuarioContext.cs" Line="100" Column="80" />
-      <File FileName="AplicacaoFaculdade/Views/Usuarios.aspx" Line="25" Column="75" />
-      <File FileName="AplicacaoFaculdade/DatabaseContext/DocumentoContext.cs" Line="89" Column="10" />
-      <File FileName="AplicacaoFaculdade/Models/Documento.cs" Line="7" Column="15" />
-      <File FileName="AplicacaoFaculdade/Models/DocumentoTipo.cs" Line="1" Column="1" />
-    </Files>
+  <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="AplicacaoFaculdade" expanded="True">
             <Node name="AplicacaoFaculdade" expanded="True">
               <Node name="DatabaseContext" expanded="True" />
+              <Node name="Global" expanded="True" />
               <Node name="Models" expanded="True">
-                <Node name="DocumentoTipo.cs" selected="True" />
+                <Node name="NivelAcesso.cs" selected="True" />
               </Node>
-              <Node name="Views" expanded="True" />
             </Node>
           </Node>
         </State>
