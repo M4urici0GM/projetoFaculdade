@@ -1,10 +1,11 @@
 ﻿using System;
 namespace AplicacaoFaculdade.Models {
     public class Telefone {
-        public int telefoneId { get; set; }
-        public int telefoneDDD { get; set; }
-        public int telefoneNumero { get; set; }
-        public bool telefonePadrao { get; set; }
-        public int telefoneFkTipo { get; set; }
+        public int? Id { get; set; }
+        public int Ddd { get; set; }
+        public int Numero { get; set; }
+        public bool? Padrao { get; set; }
+        public int FkTipo { get; set; }
+        public bool? Status;
     }
 }

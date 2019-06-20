@@ -6,12 +6,12 @@ using System.Web;
 namespace AplicacaoFaculdade.Models
 {
     public class Pessoa{
-        public int pessoaId { get; set; }
-        public string pessoaNome { get; set; }
-        public string pessoaSobreNome { get; set; }
-        public bool pessoaJuridica { get; set; }
-        public bool pessoaSexo { get; set; }
-        public DateTime pessoaNascimento { get; set; }
-        public bool pessoaStatus { get; set; }
+        public int? Id { get; set; }
+        public string Nome { get; set; }
+        public string SobreNome { get; set; }
+        public bool Juridica { get; set; }
+        public bool Sexo { get; set; }
+        public DateTime Nascimento { get; set; }
+        public bool? Status { get; set; }
     }
 }

@@ -32,7 +32,10 @@ namespace AplicacaoFaculdade {
             using (mySqlDataReader) {
                 if ( mySqlDataReader.Read() ) {
                     if ( mySqlDataReader.HasRows ) {
-                        Usuario usuario = new Usuario(new Pessoa() { pessoaId = mySqlDataReader.GetInt32(3), pessoaNome = mySqlDataReader.GetString(4) }) {
+                        Usuario usuario = new Usuario(new Pessoa() { 
+                            Id = mySqlDataReader.GetInt32(3), 
+                            Nome = mySqlDataReader.GetString(4)
+                            }) {
                             usuarioId = mySqlDataReader.GetInt32(0),
                             usuarioEmail = mySqlDataReader.GetString(1),
                             usuarioSenha = mySqlDataReader.GetString(2),

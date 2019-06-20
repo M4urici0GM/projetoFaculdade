@@ -9,7 +9,7 @@ using System.Web;
 namespace AplicacaoFaculdade.DatabaseContext {
     public class PessoaContext {
 
-        private MySqlConnection database;
+        private readonly MySqlConnection database;
         private MySqlCommand mySqlCommand;
         private MySqlDataAdapter mySqlDataAdapter;
         private MySqlDataReader mySqlDataReader;
@@ -37,27 +37,25 @@ namespace AplicacaoFaculdade.DatabaseContext {
                 using (mySqlDataReader) {
                     if (mySqlDataReader.Read() && mySqlDataReader.HasRows) {
                         return new Pessoa() {
-                            pessoaId = mySqlDataReader.GetInt32(0),
-                            pessoaNome = mySqlDataReader.GetString(1),
-                            pessoaSobreNome = mySqlDataReader.GetString(2),
-                            pessoaJuridica  = mySqlDataReader.GetBoolean(3),
-                            pessoaStatus    = mySqlDataReader.GetBoolean(4),
-                            pessoaSexo      = mySqlDataReader.GetBoolean(5),
-                            pessoaNascimento = mySqlDataReader.GetDateTime(6)
+                            Id = mySqlDataReader.GetInt32(0),
+                            Nome = mySqlDataReader.GetString(1),
+                            SobreNome = mySqlDataReader.GetString(2),
+                            Juridica = mySqlDataReader.GetBoolean(3),
+                            Status = mySqlDataReader.GetBoolean(4),
+                            Sexo = mySqlDataReader.GetBoolean(5),
+                            Nascimento = mySqlDataReader.GetDateTime(6)
                         };
-                    } else {
-                        throw new Exception("Pessoa não encontrada");
                     }
+                    throw new Exception("Pessoa não encontrada");
                 }
             }
         }
 
         public bool DeletePessoa(Pessoa pessoa) {
             mySqlCommand = new MySqlCommand("UPDATE Pessoas SET pessoaStatus = 0 WHERE pessoaId = @PessoaId", database);
-            mySqlCommand.Parameters.AddWithValue("@PessoaId", pessoa.pessoaId);
+            mySqlCommand.Parameters.AddWithValue("@PessoaId", pessoa.Id.Value);
             using (mySqlCommand) {
-                int affectedRows = mySqlCommand.ExecuteNonQuery();
-                return (affectedRows > 0);
+                return (mySqlCommand.ExecuteNonQuery() > 0);
             }
         }
 

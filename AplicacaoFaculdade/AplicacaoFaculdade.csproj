@@ -138,7 +138,7 @@
     <Compile Include="Models\DocumentoTipo.cs" />
     <Compile Include="DatabaseContext\TelefoneContext.cs" />
     <Compile Include="Models\Telefone.cs" />
-    <Compile Include="Models\TiposTelefone.cs" />
+    <Compile Include="Models\TipoTelefone.cs" />
     <Compile Include="Models\Contrato.cs" />
     <Compile Include="Models\Servico.cs" />
     <Compile Include="Models\PrecoServico.cs" />
@@ -159,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Cdn\Bundles\" />
+    <Folder Include="WebHandlers\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

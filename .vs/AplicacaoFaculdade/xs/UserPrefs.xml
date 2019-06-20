@@ -1,16 +1,27 @@
 ﻿<Properties StartupConfiguration="{CF033A3B-2B28-4DBB-B04E-44D2B36E073A}|">
   <MonoDevelop.Ide.ItemProperties.AplicacaoFaculdade PreferredExecutionTarget="/usr/bin/google-chrome-stable" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="AplicacaoFaculdade/Models/Aluno.cs">
+    <Files>
+      <File FileName="AplicacaoFaculdade/Global.asax.cs" Line="27" Column="1" />
+      <File FileName="AplicacaoFaculdade/DatabaseContext/TelefoneContext.cs" Line="51" Column="63" />
+      <File FileName="AplicacaoFaculdade/DatabaseContext/PessoaContext.cs" Line="44" Column="33" />
+      <File FileName="AplicacaoFaculdade/Models/Telefone.cs" Line="9" Column="24" />
+      <File FileName="AplicacaoFaculdade/Models/TipoTelefone.cs" Line="3" Column="22" />
+      <File FileName="AplicacaoFaculdade/Models/Pessoa.cs" Line="13" Column="19" />
+      <File FileName="AplicacaoFaculdade/DatabaseContext/DocumentoContext.cs" Line="62" Column="65" />
+      <File FileName="AplicacaoFaculdade/DatabaseContext/UsuarioContext.cs" Line="72" Column="25" />
+      <File FileName="AplicacaoFaculdade/Models/Aluno.cs" Line="12" Column="2" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="AplicacaoFaculdade" expanded="True">
             <Node name="AplicacaoFaculdade" expanded="True">
               <Node name="DatabaseContext" expanded="True" />
-              <Node name="Global" expanded="True" />
               <Node name="Models" expanded="True">
-                <Node name="NivelAcesso.cs" selected="True" />
+                <Node name="Aluno.cs" selected="True" />
               </Node>
+              <Node name="Global.asax" expanded="True" />
             </Node>
           </Node>
         </State>

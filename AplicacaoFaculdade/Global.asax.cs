@@ -14,12 +14,17 @@ namespace AplicacaoFaculdade
 
         protected void Application_Start(object sender, EventArgs e) {
             RegisterRoutes(RouteTable.Routes);  //Register roject routes
+            RegisterAPIRoutes(RouteTable.Routes); //Register API Routes
         }
 
-        public void RegisterRoutes(RouteCollection route){
+        private void RegisterRoutes(RouteCollection route){
             route.MapPageRoute("home", "", "~/Views/Index.aspx"); //Default project route
             route.MapPageRoute("login", "login", "~/Views/Login.aspx"); //Default project route
             route.MapPageRoute("usuarios", "usuarios", "~/Views/Usuarios.aspx");
+        }
+
+        private void RegisterAPIRoutes(RouteCollection routes) {
+
         }
     }
 }
