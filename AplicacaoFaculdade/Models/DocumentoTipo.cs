@@ -1,8 +1,8 @@
 ﻿using System;
 namespace AplicacaoFaculdade.Models {
     public class DocumentoTipo {
-        public int? tipoDocumentoId{ get; set; }
-        public string tipoDocumentoNome { get; set; }
-        public bool? tipoDocumentoStatus { get; set; }
+        public int? Id{ get; set; }
+        public string Nome { get; set; }
+        public bool? Status { get; set; }
     }
 }

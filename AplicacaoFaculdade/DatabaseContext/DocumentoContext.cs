@@ -19,7 +19,7 @@ namespace AplicacaoFaculdade.DatabaseContext {
         public DataTable GetDocumentos(Pessoa pessoa) {
             DataTable documentosDataTable = new DataTable();
             mySqlCommand = new MySqlCommand("SELECT * FROM  PessoasDocumentos INNER JOIN Pessoas ON fkDocumento = documentoId INNER JOIN Pessoas on fkPessoa = pessoaId WHERE pessoaId = @PessoaId", database);
-            mySqlCommand.Parameters.AddWithValue("@PessoaId", pessoa.pessoaId);
+            mySqlCommand.Parameters.AddWithValue("@PessoaId", pessoa.Id);
             mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             using (mySqlDataAdapter) {
                 mySqlDataAdapter.Fill(documentosDataTable);
@@ -29,16 +29,16 @@ namespace AplicacaoFaculdade.DatabaseContext {
 
         public Documento GetDocumento(Documento documento) {
             mySqlCommand = new MySqlCommand("SELECT documentoId, documentoNumero, documentoFkTipo, documentoStatus FROM PessoasDocumentos INNER JOIN Documentos on fkDocumento = documentoId WHERE documentoId = @DocumentoId", database);
-            mySqlCommand.Parameters.AddWithValue("@DocumentoId", documento.documentoId);
+            mySqlCommand.Parameters.AddWithValue("@DocumentoId", documento.Id);
             using (mySqlCommand) {
                 mySqlDataReader = mySqlCommand.ExecuteReader();
                 using (mySqlDataReader) {
                     if (mySqlDataReader.HasRows) {
                         return new Documento() {
-                            documentoId = mySqlDataReader.GetInt32(0),
-                            documentoNumero = mySqlDataReader.GetString(1),
-                            documentoTipo = mySqlDataReader.GetInt32(2),
-                            documentoStatus = mySqlDataReader.GetBoolean(3)
+                            Id = mySqlDataReader.GetInt32(0),
+                            Numero = mySqlDataReader.GetString(1),
+                            Tipo = mySqlDataReader.GetInt32(2),
+                            Status = mySqlDataReader.GetBoolean(3)
                         };
                     }
                 }
@@ -49,15 +49,15 @@ namespace AplicacaoFaculdade.DatabaseContext {
         public bool? CreateDocumento(Documento documento, Pessoa pessoa) {
             string query = "INSERT INTO Documentos() VALUES (null, @DocumentoTipo, @DocumentoNumero, true)";
             mySqlCommand = new MySqlCommand(query, database);
-            mySqlCommand.Parameters.AddWithValue("@DocumentoTipo", documento.documentoTipo);
-            mySqlCommand.Parameters.AddWithValue("@DocumentoNumero", documento.documentoNumero);
+            mySqlCommand.Parameters.AddWithValue("@DocumentoTipo", documento.Tipo);
+            mySqlCommand.Parameters.AddWithValue("@DocumentoNumero", documento.Numero);
 
             using (mySqlCommand) {
                 if (mySqlCommand.ExecuteNonQuery() > 0) {
                     int newDocumentoId = (int) mySqlCommand.LastInsertedId;
                     query = "INSERT INTO PessoasDcoumentos() VALUES (@PessoaId, @DocumentoId)";
                     mySqlCommand = new MySqlCommand(query, database);
-                    mySqlCommand.Parameters.AddWithValue("@PessoaId", pessoa.pessoaId);
+                    mySqlCommand.Parameters.AddWithValue("@PessoaId", pessoa.Id);
                     mySqlCommand.Parameters.AddWithValue("@DocumentoId", newDocumentoId);
                     return (mySqlCommand.ExecuteNonQuery() > 0);
                 }
@@ -78,13 +78,31 @@ namespace AplicacaoFaculdade.DatabaseContext {
             }
         }
 
+        public DocumentoTipo GetDocumentoTipos(DocumentoTipo documentoTipo) {
+            mySqlCommand = new MySqlCommand("SELECT * FROM TiposDcoumento WHERE tipoDocumentoId = @TipoDocumentoId", database);
+            mySqlCommand.Parameters.AddWithValue("@TipoDocumentoId", documentoTipo.Id.Value);
+            using (mySqlCommand) {
+                mySqlDataReader = mySqlCommand.ExecuteReader();
+                if (mySqlDataReader.Read()) {
+                    if (mySqlDataReader.HasRows) {
+                        return new DocumentoTipo() {
+                            Id = mySqlDataReader.GetInt32(0),
+                            Nome = mySqlDataReader.GetString(1),
+                            Status = mySqlDataReader.GetBoolean(2)
+                        };
+                    }
+                }
+            }
+            return new DocumentoTipo();
+        }
+
         public bool UpdateDocumento(Documento documento) {
             string query = "UPDATE Documentos SET documentoFkTipo = @DocumentoTipo, documentoNumero = @DocumentoNumero, documentoStatus = @DocumentoStatus WHERE documentoId = @DocumentoId";
             mySqlCommand = new MySqlCommand(query, database);
-            mySqlCommand.Parameters.AddWithValue("@DocumentoTipo", documento.documentoTipo);
-            mySqlCommand.Parameters.AddWithValue("@DocumentoNumero", documento.documentoNumero);
-            mySqlCommand.Parameters.AddWithValue("@DocumentoStatus", documento.documentoStatus);
-            mySqlCommand.Parameters.AddWithValue("@DocumentoId", documento.documentoId);
+            mySqlCommand.Parameters.AddWithValue("@DocumentoTipo", documento.Tipo);
+            mySqlCommand.Parameters.AddWithValue("@DocumentoNumero", documento.Numero);
+            mySqlCommand.Parameters.AddWithValue("@DocumentoStatus", documento.Status);
+            mySqlCommand.Parameters.AddWithValue("@DocumentoId", documento.Id);
             using (mySqlCommand) {
                 return (mySqlCommand.ExecuteNonQuery() > 0);
             }
@@ -93,9 +111,9 @@ namespace AplicacaoFaculdade.DatabaseContext {
         public bool UpdateDocumentoTipo(DocumentoTipo documentoTipo) {
             string query = "UPDATE TiposDocumento SET tipoDocumentoNome = @TipoDocumentoNome, tipoDocumentoStatus = @TipoDocumentoStatus WHERE tipoDocumentoId = @TipoDocumentoId";
             mySqlCommand = new MySqlCommand(query, database);
-            mySqlCommand.Parameters.AddWithValue("@TipoDocumentoNome", documentoTipo.tipoDocumentoNome);
-            mySqlCommand.Parameters.AddWithValue("@TipoDocumentoStatus", documentoTipo.tipoDocumentoStatus);
-            mySqlCommand.Parameters.AddWithValue("@TipoDocumentoId", documentoTipo.tipoDocumentoId);
+            mySqlCommand.Parameters.AddWithValue("@TipoDocumentoNome", documentoTipo.Nome);
+            mySqlCommand.Parameters.AddWithValue("@TipoDocumentoStatus", documentoTipo.Status);
+            mySqlCommand.Parameters.AddWithValue("@TipoDocumentoId", documentoTipo.Id);
             using (mySqlCommand) {
                 return (mySqlCommand.ExecuteNonQuery() > 0);
             }
@@ -104,8 +122,8 @@ namespace AplicacaoFaculdade.DatabaseContext {
         public bool? CreateDocumentoTipo(DocumentoTipo documento) {
             string query = "INSERT INTO TiposDocumento() VALUES (null, @TipoDocumentoNome, @TipoDocumentoStatus)";
             mySqlCommand = new MySqlCommand(query, database);
-            mySqlCommand.Parameters.AddWithValue("@TipoDocumentoNome", documento.tipoDocumentoNome);
-            mySqlCommand.Parameters.AddWithValue("@TipoDocumentoStatus", documento.tipoDocumentoStatus);
+            mySqlCommand.Parameters.AddWithValue("@TipoDocumentoNome", documento.Nome);
+            mySqlCommand.Parameters.AddWithValue("@TipoDocumentoStatus", documento.Status);
             using (mySqlCommand) {
                 return (mySqlCommand.ExecuteNonQuery() > 0);
             }
@@ -115,7 +133,7 @@ namespace AplicacaoFaculdade.DatabaseContext {
         public bool DeleteDocumento(Documento documento) {
             string query = "UPDATE Documentos SET documentoStatus = 0 WHERE documentoId = @DocumentoId";
             mySqlCommand = new MySqlCommand(query, database);
-            mySqlCommand.Parameters.AddWithValue("@DocumentoId", documento.documentoId);
+            mySqlCommand.Parameters.AddWithValue("@DocumentoId", documento.Id);
             using (mySqlCommand) {
                 return (mySqlCommand.ExecuteNonQuery() > 0);
             }

@@ -5,21 +5,14 @@ using System.Web;
 
 namespace AplicacaoFaculdade.Models
 {
-    public class Usuario {
-        public int? usuarioId { get; set; }
-        public string usuarioEmail { get; set; }
-        public string usuarioSenha { get; set; }
-        public int? usuarioFkPessoa { get; set; }
-        public bool? usuarioStatus { get; set; }
-        public int? usuarioFkNivelAcesso { get; set; }
+    public class Usuario : Pessoa{
+        public int? Id { get; set; }
+        public string Email { get; set; }
+        public string Senha { get; set; }
+        public int? FkPessoa { get; set; }
+        public bool? Status { get; set; }
+        public int? FkNivelAcesso { get; set; }
 
-        public Pessoa pessoa;
-        
-        public Usuario(Pessoa pessoa){
-            this.pessoa = pessoa;
-            usuarioFkPessoa = pessoa.pessoaId;
-        }
-
-        public Usuario() {}
+        public int? PessoaId { get => this.PessoaId;  set => this.PessoaId = value; }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 namespace AplicacaoFaculdade.Models {
     public class DataLog {
-        public int dataLogId { get; set; }
-        public DateTime dataLogData { get; set; }
-        public int dataLogFkUsuario { get; set; }
-        public string dataLogAtividade { get; set; }
+        public int? Id { get; set; }
+        public DateTime Data { get; set; }
+        public int FkUsuario { get; set; }
+        public string Atividade { get; set; }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 namespace AplicacaoFaculdade.Models {
     public class Documento {
-        public int? documentoId { get; set; }
-        public int? documentoTipo { get; set; }
-        public string documentoNumero { get; set; }
-        public bool? documentoStatus { get; set; }
+        public int? Id { get; set; }
+        public int? Tipo { get; set; }
+        public string Numero { get; set; }
+        public bool? Status { get; set; }
     }
 }

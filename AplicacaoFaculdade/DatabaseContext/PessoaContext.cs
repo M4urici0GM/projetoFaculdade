@@ -51,6 +51,28 @@ namespace AplicacaoFaculdade.DatabaseContext {
             }
         }
 
+        public Pessoa GetPessoa(Pessoa pessoa) {
+            mySqlCommand = new MySqlCommand("SELECT * FROM Pessoas WHERE pessoaId = @PessoaId", database);
+            mySqlCommand.Parameters.AddWithValue("@PessoaId", pessoa.Id.Value);
+            using (mySqlCommand) {
+                mySqlDataReader = mySqlCommand.ExecuteReader();
+                using (mySqlDataReader) {
+                    if (mySqlDataReader.Read() && mySqlDataReader.HasRows) {
+                        return new Pessoa() {
+                            Id = mySqlDataReader.GetInt32(0),
+                            Nome = mySqlDataReader.GetString(1),
+                            SobreNome = mySqlDataReader.GetString(2),
+                            Juridica = mySqlDataReader.GetBoolean(3),
+                            Status = mySqlDataReader.GetBoolean(4),
+                            Sexo = mySqlDataReader.GetBoolean(5),
+                            Nascimento = mySqlDataReader.GetDateTime(6)
+                        };
+                    }
+                    throw new Exception("Pessoa não encontrada");
+                }
+            }
+        }
+
         public bool DeletePessoa(Pessoa pessoa) {
             mySqlCommand = new MySqlCommand("UPDATE Pessoas SET pessoaStatus = 0 WHERE pessoaId = @PessoaId", database);
             mySqlCommand.Parameters.AddWithValue("@PessoaId", pessoa.Id.Value);

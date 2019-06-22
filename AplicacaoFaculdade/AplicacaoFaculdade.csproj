@@ -89,6 +89,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseContext\EnderecoContext.cs" />
+    <Compile Include="DatabaseContext\LogContext.cs" />
+    <Compile Include="DatabaseContext\ServicoContext.cs" />
     <Compile Include="DatabaseContext\UsuarioContext.cs" />
     <Compile Include="Database\Database.cs" />
     <Compile Include="Global\Crypter.cs" />

@@ -6,13 +6,13 @@ using System.Web;
 namespace AplicacaoFaculdade.Models
 {
     public class Endereco {
-        public int enderecoId { get; set; }
-        public string enderecoLogradouro { get; set; }
-        public string enderecoDesc { get; set; }
-        public int enderecoNumero { get; set; }
-        public string enderecoBairro { get; set; }
-        public string enderecoCidade { get; set; }
-        public int enderecoCep { get; set; }
-        public bool enderecoStatus { get; set; }
+        public int? Id { get; set; }
+        public string Logradouro { get; set; }
+        public string Desc { get; set; }
+        public int Numero { get; set; }
+        public string Bairro { get; set; }
+        public string Cidade { get; set; }
+        public int Cep { get; set; }
+        public bool Status { get; set; }
     }
 }

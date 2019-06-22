@@ -32,14 +32,13 @@ namespace AplicacaoFaculdade {
             using (mySqlDataReader) {
                 if ( mySqlDataReader.Read() ) {
                     if ( mySqlDataReader.HasRows ) {
-                        Usuario usuario = new Usuario(new Pessoa() { 
-                            Id = mySqlDataReader.GetInt32(3), 
+                        Usuario usuario = new Usuario() {
+                            Id = mySqlDataReader.GetInt32(0),
+                            Email = mySqlDataReader.GetString(1),
+                            Senha = mySqlDataReader.GetString(2),
+                            FkPessoa = mySqlDataReader.GetInt32(3),
+                            PessoaId = mySqlDataReader.GetInt32(3),
                             Nome = mySqlDataReader.GetString(4)
-                            }) {
-                            usuarioId = mySqlDataReader.GetInt32(0),
-                            usuarioEmail = mySqlDataReader.GetString(1),
-                            usuarioSenha = mySqlDataReader.GetString(2),
-                            usuarioFkPessoa = mySqlDataReader.GetInt32(3)
                         };
                         return usuario;
                     }
@@ -51,16 +50,16 @@ namespace AplicacaoFaculdade {
 
         public Usuario CreateUser(Usuario usuario) {
             mySqlCommand = new MySqlCommand("SELECT usuarioId, usuarioLogin FROM Usuarios WHERE usuarioLogin = @UserLogin");
-            mySqlCommand.Parameters.AddWithValue("@UserLogin", usuario.usuarioEmail);
+            mySqlCommand.Parameters.AddWithValue("@UserLogin", usuario.Email);
             mySqlDataReader = mySqlCommand.ExecuteReader();
 
             using (mySqlDataReader) {
                 if (mySqlDataReader.Read()) {
                     if (!mySqlDataReader.HasRows) {
                         mySqlCommand = new MySqlCommand("INSERT INTO Usuarios() VALUES (null, @UserLogin, @UserPassword, @UserAccessLevel, null, 1)");
-                        mySqlCommand.Parameters.AddWithValue("@UserLogin", usuario.usuarioEmail);
-                        mySqlCommand.Parameters.AddWithValue("@UserPassword", usuario.usuarioSenha);
-                        mySqlCommand.Parameters.AddWithValue("@UserAccessLevel", usuario.usuarioFkNivelAcesso);
+                        mySqlCommand.Parameters.AddWithValue("@UserLogin", usuario.Email);
+                        mySqlCommand.Parameters.AddWithValue("@UserPassword", usuario.Senha);
+                        mySqlCommand.Parameters.AddWithValue("@UserAccessLevel", usuario.FkNivelAcesso);
 
                         int result = mySqlCommand.ExecuteNonQuery();
                         int userNewId = (int) mySqlCommand.LastInsertedId;
@@ -73,19 +72,19 @@ namespace AplicacaoFaculdade {
                         using (mySqlDataReader) {
                             if (mySqlDataReader.Read()) {
                                 return new Usuario() {
-                                    usuarioId = mySqlDataReader.GetInt32(0),
-                                    usuarioEmail = mySqlDataReader.GetString(1),
-                                    usuarioSenha = mySqlDataReader.GetString(2),
-                                    usuarioFkNivelAcesso = mySqlDataReader.GetInt32(3),
-                                    usuarioStatus = mySqlDataReader.GetBoolean(5)
+                                    Id = mySqlDataReader.GetInt32(0),
+                                    Email = mySqlDataReader.GetString(1),
+                                    Senha = mySqlDataReader.GetString(2),
+                                    FkNivelAcesso = mySqlDataReader.GetInt32(3),
+                                    Status = mySqlDataReader.GetBoolean(5)
                                 };
                             }
                             throw new Exception("User not found");
                         }
                     }
                     return new Usuario() {
-                        usuarioId = mySqlDataReader.GetInt32(0),
-                        usuarioEmail = mySqlDataReader.GetString(1)
+                        Id = mySqlDataReader.GetInt32(0),
+                        Email = mySqlDataReader.GetString(1)
                     };
                 }
             }
@@ -113,11 +112,11 @@ namespace AplicacaoFaculdade {
             using (mySqlDataReader) {
                 if (mySqlDataReader.Read()) {
                     return new Usuario() {
-                        usuarioId = mySqlDataReader.GetInt32(0),
-                        usuarioEmail = mySqlDataReader.GetString(1),
-                        usuarioSenha = mySqlDataReader.GetString(2),
-                        usuarioFkNivelAcesso = mySqlDataReader.GetInt32(3),
-                        usuarioStatus = mySqlDataReader.GetBoolean(5)
+                        Id = mySqlDataReader.GetInt32(0),
+                        Email = mySqlDataReader.GetString(1),
+                        Senha = mySqlDataReader.GetString(2),
+                        FkNivelAcesso = mySqlDataReader.GetInt32(3),
+                        Status = mySqlDataReader.GetBoolean(5)
                     };
                 }
                 throw new KeyNotFoundException();
@@ -127,7 +126,7 @@ namespace AplicacaoFaculdade {
         public bool DeleteUser(Usuario usuario) {
             mySqlCommand = new MySqlCommand("UPDATE Usuarios SET usuarioStatus = @UserStatus WHERE usuarioId = @UserId");
             mySqlCommand.Parameters.AddWithValue("@UserStatus", 0);
-            mySqlCommand.Parameters.AddWithValue("@UserId", usuario.usuarioId);
+            mySqlCommand.Parameters.AddWithValue("@UserId", usuario.Id.Value);
             using (mySqlCommand) {
                 return (mySqlCommand.ExecuteNonQuery() > 0);
             }
