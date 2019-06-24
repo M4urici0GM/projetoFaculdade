@@ -9,6 +9,7 @@ namespace AplicacaoFaculdade.DatabaseContext {
         public int? AffectedRows { get; private set; }
         public Servico LastCreated { get; private set; }
         public DataTable LastSelection { get; private set; }
+        public object LastSingleSelection { get; set; }
 
         private MySqlConnection databaseConnection;
         private MySqlCommand mySqlCommand;
@@ -19,13 +20,52 @@ namespace AplicacaoFaculdade.DatabaseContext {
             databaseConnection = Database.GetInstance().GetConnection();
             AffectedRows = 0;
             LastInsertId = null;
+            LastSelection = new DataTable();
+            LastSingleSelection = new Servico();
         }
 
         public DataTable GetServicos(bool ativos = true) {
-
-
-
+            mySqlCommand = new MySqlCommand("SELECT * FROM Servicos INNER JOIN Turmas ON servicoId = turmaServico INNER JOIN precoServico ON servicoId = precoServicoFkServico WHERE servicoStatus = @ServicoStatus", databaseConnection);
+            mySqlCommand.Parameters.AddWithValue("@ServicoStatus", ativos);
+            using (mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand)) {
+                mySqlDataAdapter.Fill(LastSelection);
+            }
             return LastSelection;
+        }
+
+        public Servico GetServicos(Servico servico) {
+            mySqlCommand = new MySqlCommand("SELECT * FROM Servicos INNER JOIN precoServico ON servicoId = precoServicoFkServico WHERE servicoId = @ServicoId", databaseConnection);
+            mySqlCommand.Parameters.AddWithValue("@ServicoId", servico.Id.Value);
+            using (mySqlDataReader = mySqlCommand.ExecuteReader()) {
+                if (mySqlDataReader.HasRows && mySqlDataReader.Read()) {
+                    LastSingleSelection = new Servico() {
+                        Id = mySqlDataReader.GetInt32(0),
+                        Nome = mySqlDataReader.GetString(1),
+                        Status = mySqlDataReader.GetBoolean(2)
+                    };
+                }
+            }
+            return (Servico) LastSingleSelection;
+        }
+
+        public DataTable GetServicos(Funcionario funcionario) {
+            mySqlCommand = new MySqlCommand("SELECT * FROM Servicos INNER JOIN precoServico ON servicoId = precoServicoFkServico INNER JOIN Turmas ON servicoId = turmaServico INNER JOIN FuncionarioTurmas ON turmaId = fkTurma INNER JOIN Funcionarios ON fkFuncionario = funcionarioId INNER JOIN Pessoas ON funcionarioFkPessoa = pessoaId WHERE funcionarioId = @FuncionarioId", databaseConnection);
+            mySqlCommand.Parameters.AddWithValue("@FuncionarioId", funcionario.Id.Value);
+            using (mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand)) {
+                mySqlDataAdapter.Fill(LastSelection);
+            }
+            return LastSelection;
+        }
+
+        public bool CreateServico(Servico servico) {
+            mySqlCommand = new MySqlCommand("INSERT INTO Servicos () VALUES (NULL, @ServicoNome, true)", databaseConnection);
+            mySqlCommand.Parameters.AddWithValue("@ServicoNome", servico.Nome);
+            using (mySqlCommand) {
+                AffectedRows = mySqlCommand.ExecuteNonQuery();
+                LastInsertId = (int) mySqlCommand.LastInsertedId;
+                LastCreated = servico;
+            }
+            return (AffectedRows > 0);
         }
 
     }

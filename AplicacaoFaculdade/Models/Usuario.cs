@@ -12,7 +12,6 @@ namespace AplicacaoFaculdade.Models
         public int? FkPessoa { get; set; }
         public bool? Status { get; set; }
         public int? FkNivelAcesso { get; set; }
-
-        public int? PessoaId { get => this.PessoaId;  set => this.PessoaId = value; }
+        public int? PessoaId { get => base.Id;  set => base.Id = value; }
     }
 }

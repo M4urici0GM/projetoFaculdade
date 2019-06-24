@@ -1,8 +1,8 @@
 ﻿using System;
 namespace AplicacaoFaculdade.Models {
     public class Servico {
-        public int servicoId { get; set; }
-        public string servicoNome { get; set; }
-        public bool servicoStatus { get; set; }
+        public int? Id { get; set; }
+        public string Nome { get; set; }
+        public bool? Status { get; set; }
     }
 }

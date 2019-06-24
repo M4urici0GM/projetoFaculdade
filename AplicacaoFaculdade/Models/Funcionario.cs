@@ -5,20 +5,14 @@ using System.Web;
 
 namespace AplicacaoFaculdade.Models
 {
-    public class Funcionario{
-        public Pessoa pessoa;
-        public Cargo cargo;
-        public int funcionarioId { get; set; }
-        public int funcionarioFkPessoa { get; }
-        public bool funcionarioStatus { get; set; }
-        public int funcionarioFkCargo { get; set; }
-        
+    public class Funcionario : Pessoa{
 
-        public Funcionario(Pessoa pessoa, Cargo cargo) {
-            this.pessoa = pessoa;
-            this.cargo  = cargo;
-            funcionarioFkPessoa = pessoa.pessoaId;
-            funcionarioFkCargo = cargo.cargoId;
-        }
+        public int? Id { get; set; }
+        public int? FkPessoa { get; }
+        public bool? Status { get; set; }
+        public int? FkCargo { get; set; }
+        public int? PessoaId { get => base.Id; set => base.Id = value; }
+        public bool? PessoaStatus { get => base.Status; set => base.Status = value; }
+       
     }
 }
