@@ -1,13 +1,13 @@
 ﻿using System;
 namespace AplicacaoFaculdade.Models {
     public class Movimento {
-        public int movimentoId { get; set; }
-        public string movimentoTipo { get; set; }
-        public string movimentoOrigem { get; set; }
-        public float movimentoValor { get; set; }
-        public int movimentoFkConta { get; set; }
-        public int movimentoFkPessoa { get; set; }
-        public DateTime movimentoDataEmissao { get; set; }
-        public DateTime movimentoDataPagamento { get; set; }
+        public int? Id { get; set; }
+        public string Tipo { get; set; }
+        public string Origem { get; set; }
+        public float Valor { get; set; }
+        public int? FkConta { get; set; }
+        public int? FkPessoa { get; set; }
+        public DateTime DataEmissao { get; set; }
+        public DateTime DataPagamento { get; set; }
     }
 }

@@ -6,6 +6,6 @@ namespace AplicacaoFaculdade.Models {
         public int Numero { get; set; }
         public bool? Padrao { get; set; }
         public int FkTipo { get; set; }
-        public bool? Status;
+        public bool? Status { get; set; }
     }
 }

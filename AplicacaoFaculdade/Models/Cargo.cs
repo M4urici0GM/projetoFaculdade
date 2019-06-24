@@ -6,9 +6,9 @@ using System.Web;
 namespace AplicacaoFaculdade.Models
 {
     public class Cargo {
-        public int cargoId { get; set; }
-        public string cargoNome { get; set; }
-        public float cargoSalario { get; set; }
-        public bool  cargoStatus { get; set; }
+        public int? Id { get; set; }
+        public string Nome { get; set; }
+        public float Salario { get; set; }
+        public bool?  Status { get; set; }
     }
 }
