@@ -63,7 +63,19 @@ namespace AplicacaoFaculdade.DatabaseContext {
             using (mySqlCommand) {
                 AffectedRows = mySqlCommand.ExecuteNonQuery();
                 LastInsertId = (int) mySqlCommand.LastInsertedId;
-                LastCreated = servico;
+                if (AffectedRows > 0) 
+                    LastCreated = servico;
+            }
+            return (AffectedRows > 0);
+        }
+
+        public bool UpdateServico(Servico servico) {
+            mySqlCommand = new MySqlCommand("UPDATE Servicos SET servicoNome = @ServicoNome, servicoStatus = @ServicoStatus WHERE servicoId = @ServicoId");
+            mySqlCommand.Parameters.AddWithValue("@ServicoNome", servico.Nome);
+            mySqlCommand.Parameters.AddWithValue("@ServicoStatus", servico.Status);
+            mySqlCommand.Parameters.AddWithValue("@ServicoId", servico.Id.Value);
+            using (mySqlCommand) {
+                AffectedRows = mySqlCommand.ExecuteNonQuery();
             }
             return (AffectedRows > 0);
         }
