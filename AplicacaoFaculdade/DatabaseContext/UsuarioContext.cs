@@ -3,12 +3,17 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+using AplicacaoFaculdade.Enums;
 
 namespace AplicacaoFaculdade {
     public class UsuarioContext {
+
+        public int? AffectedRows { get; private set; }
+        public int? LastInsertId { get; private set; }
+        public DataTable LastSelection { get; private set; }
+        public Usuario LastCreated { get; private set; }
+
+
         private MySqlConnection databaseConn;
         private MySqlCommand mySqlCommand;
         private MySqlDataAdapter mySqlDataAdapter;
@@ -17,7 +22,8 @@ namespace AplicacaoFaculdade {
 
         public UsuarioContext() {
             databaseConn = Database.GetInstance().GetConnection();
-            //databaseConn.Open();
+            LastCreated = new Usuario();
+            LastSelection = new DataTable();
         }
 
         public Usuario DoLogin(string usuarioLogin, string usuarioSenha) {
@@ -71,6 +77,7 @@ namespace AplicacaoFaculdade {
 
                         using (mySqlDataReader) {
                             if (mySqlDataReader.Read()) {
+                                
                                 return new Usuario() {
                                     Id = mySqlDataReader.GetInt32(0),
                                     Email = mySqlDataReader.GetString(1),
@@ -104,7 +111,7 @@ namespace AplicacaoFaculdade {
         }
 
         public Usuario GetUsuarios(int usuarioId) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Usuarios left join pessoas on usuarioFkPessoa = pessoaId WHERE usuarioId = @UserId");
+            mySqlCommand = new MySqlCommand("SELECT * FROM Usuarios left join pessoas on usuarioFkPessoa = pessoaId WHERE usuarioId = @UserId", databaseConn);
             mySqlCommand.Parameters.AddWithValue("@UserId", usuarioId);
 
             mySqlDataReader = mySqlCommand.ExecuteReader();
@@ -124,12 +131,56 @@ namespace AplicacaoFaculdade {
         }
 
         public bool DeleteUser(Usuario usuario) {
-            mySqlCommand = new MySqlCommand("UPDATE Usuarios SET usuarioStatus = @UserStatus WHERE usuarioId = @UserId");
+            mySqlCommand = new MySqlCommand("UPDATE Usuarios SET usuarioStatus = @UserStatus WHERE usuarioId = @UserId", databaseConn);
             mySqlCommand.Parameters.AddWithValue("@UserStatus", 0);
             mySqlCommand.Parameters.AddWithValue("@UserId", usuario.Id.Value);
             using (mySqlCommand) {
                 return (mySqlCommand.ExecuteNonQuery() > 0);
             }
+        }
+
+        public DataTable GetNivelAcesso(bool ativos = true, int limit = 10, Order order = Order.ASC) {
+            string query = @"
+                SELECT * FROM NivelAcesso
+                WHERE
+                    nivelAcessoStatus = @NivelAcessoStatus
+                ORDER BY nivelAcessoNome @Order
+                LIMIT @Limit
+            ";
+            mySqlCommand = new MySqlCommand(query, databaseConn);
+            mySqlCommand.Parameters.AddWithValue("@NivelAcessoStatus", ativos);
+            mySqlCommand.Parameters.AddWithValue("@Order", order);
+            mySqlCommand.Parameters.AddWithValue("@Limit", limit);
+            using (mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand)) {
+                mySqlDataAdapter.Fill(LastSelection);
+            }
+            return LastSelection;
+        }
+
+        public NivelAcesso GetNivelAcesso(NivelAcesso nivelAcesso) {
+            string query = @"SELECT * FROM NivelAcesso WHERE nivelAcessoId = @NivelAcessoId";
+            mySqlCommand = new MySqlCommand(query, databaseConn);
+            mySqlCommand.Parameters.AddWithValue("@NivelAcessoId", nivelAcesso.Id.Value);
+            using (mySqlDataReader = mySqlCommand.ExecuteReader()) {
+                if (mySqlDataReader.HasRows && mySqlDataReader.Read()) {
+                    return new NivelAcesso() {
+                        Id = mySqlDataReader.GetInt32(0),
+                        Nome = mySqlDataReader.GetString(1),
+                        Status = mySqlDataReader.GetBoolean(2)
+                    };
+                }
+            }
+            return new NivelAcesso();
+        }
+
+        public bool CreateNivelAcesso(NivelAcesso nivelAcesso) {
+            string query = "INSERT INTO NivelAcesso() VALUES (null, @NivelAcessoNome, true)";
+            mySqlCommand = new MySqlCommand(query, databaseConn);
+            mySqlCommand.Parameters.AddWithValue("@NivelAcessoNome", nivelAcesso.Nome);
+            using (mySqlCommand) {
+                AffectedRows = mySqlCommand.ExecuteNonQuery();
+            }
+            return (AffectedRows > 0);
         }
     }
 }

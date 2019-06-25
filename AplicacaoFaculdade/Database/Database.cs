@@ -53,4 +53,6 @@ namespace AplicacaoFaculdade
         public static Database GetInstance() => databaseInstance;
 
     }
+
+
 }

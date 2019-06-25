@@ -7,7 +7,10 @@ namespace AplicacaoFaculdade.Models {
         public float Valor { get; set; }
         public int? FkConta { get; set; }
         public int? FkPessoa { get; set; }
+        public int? FkUsuario { get; set; }
         public DateTime DataEmissao { get; set; }
         public DateTime DataPagamento { get; set; }
+        public bool? Status { get; set; }
+
     }
 }

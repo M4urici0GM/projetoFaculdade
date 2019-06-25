@@ -1,8 +1,8 @@
 ﻿using System;
 namespace AplicacaoFaculdade.Models {
     public class NivelAcesso {
-        public int nivelAcessoId { get; set; }
-        public string nivelAcessoNome { get; set; }
-        public bool nivelAcessoStatus { get; set; }
+        public int? Id { get; set; }
+        public string Nome { get; set; }
+        public bool? Status { get; set; }
     }
 }

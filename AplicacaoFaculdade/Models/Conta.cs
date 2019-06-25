@@ -1,9 +1,9 @@
 ﻿using System;
 namespace AplicacaoFaculdade.Models {
     public class Conta {
-        public int contaId { get; set; }
-        public string contaNome { get; set; }
-        public float contaSaldo { get; set; }
-        public bool contaStatus { get; set; }
+        public int? Id { get; set; }
+        public string Nome { get; set; }
+        public float? Saldo { get; set; }
+        public bool? Status { get; set; }
     }
 }
