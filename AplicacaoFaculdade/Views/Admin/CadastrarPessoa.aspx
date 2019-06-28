@@ -70,6 +70,13 @@
                     <i class="fas fa-plus"></i> &nbsp; Adicionar
                 </button>
             </div>
+            <div class="col-12">
+                <table class="table table-hover" id="">
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
         </div>
         <hr />
         <div class="row">
