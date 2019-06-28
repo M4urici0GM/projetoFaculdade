@@ -94,7 +94,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseContext\ContaContext.cs" />
-    <Compile Include="DatabaseContext\EnderecoContext.cs" />
     <Compile Include="DatabaseContext\FinanceiroContext.cs" />
     <Compile Include="DatabaseContext\LogContext.cs" />
     <Compile Include="DatabaseContext\ServicoContext.cs" />
@@ -105,7 +104,6 @@
     <Compile Include="Global\SessionClass.cs" />
     <Compile Include="Models\Aluno.cs" />
     <Compile Include="Models\Cargo.cs" />
-    <Compile Include="Models\Endereco.cs" />
     <Compile Include="Models\Funcionario.cs" />
     <Compile Include="Models\Pessoa.cs" />
     <Compile Include="Models\Usuario.cs" />
@@ -171,12 +169,6 @@
       <DependentUpon>Usuarios.aspx</DependentUpon>
     </Compile>
     <Compile Include="DatabaseContext\PessoaContext.cs" />
-    <Compile Include="DatabaseContext\DocumentoContext.cs" />
-    <Compile Include="Models\Documento.cs" />
-    <Compile Include="Models\DocumentoTipo.cs" />
-    <Compile Include="DatabaseContext\TelefoneContext.cs" />
-    <Compile Include="Models\Telefone.cs" />
-    <Compile Include="Models\TipoTelefone.cs" />
     <Compile Include="Models\Contrato.cs" />
     <Compile Include="Models\Servico.cs" />
     <Compile Include="Models\PrecoServico.cs" />
