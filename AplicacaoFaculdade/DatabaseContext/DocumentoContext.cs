@@ -7,6 +7,9 @@ namespace AplicacaoFaculdade.DatabaseContext {
 
     public class DocumentoContext {
 
+        public int? AffectedRows { get; set; }
+        public int? LastInsertId { get; set; }
+
         private MySqlConnection database;
         private MySqlCommand mySqlCommand;
         private MySqlDataReader mySqlDataReader;
@@ -54,17 +57,28 @@ namespace AplicacaoFaculdade.DatabaseContext {
 
             using (mySqlCommand) {
                 if (mySqlCommand.ExecuteNonQuery() > 0) {
-                    int newDocumentoId = (int) mySqlCommand.LastInsertedId;
+                    LastInsertId = (int)mySqlCommand.LastInsertedId;
                     query = "INSERT INTO PessoasDcoumentos() VALUES (@PessoaId, @DocumentoId)";
                     mySqlCommand = new MySqlCommand(query, database);
                     mySqlCommand.Parameters.AddWithValue("@PessoaId", pessoa.Id);
-                    mySqlCommand.Parameters.AddWithValue("@DocumentoId", newDocumentoId);
-                    return (mySqlCommand.ExecuteNonQuery() > 0);
+                    mySqlCommand.Parameters.AddWithValue("@DocumentoId", LastInsertId);
+                    AffectedRows = mySqlCommand.ExecuteNonQuery();
                 }
             }
-
-            return false;
+            return (AffectedRows > 0);
         }
+        public bool? CreateDocumento(Documento documento) {
+            string query = "INSERT INTO Documentos() VALUES (null, @DocumentoTipo, @DocumentoNumero, true)";
+            mySqlCommand = new MySqlCommand(query, database);
+            mySqlCommand.Parameters.AddWithValue("@DocumentoTipo", documento.Tipo);
+            mySqlCommand.Parameters.AddWithValue("@DocumentoNumero", documento.Numero);
+            using (mySqlCommand) {
+                AffectedRows = mySqlCommand.ExecuteNonQuery();
+            }
+            return AffectedRows > 0;
+        }
+
+
 
         public DataTable GetDocumentoTipos(bool tipoDocumentoStatus = true) {
             DataTable documentoTiposDatatable = new DataTable();

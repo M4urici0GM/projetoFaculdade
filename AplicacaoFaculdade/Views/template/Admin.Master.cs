@@ -11,7 +11,7 @@ namespace AplicacaoFaculdade.Views.template {
             var session = Session["usuarioLogin"];
 
             if (session == null) {
-                Response.RedirectToRoute("login");
+                Response.RedirectToRoute("adminLogin");
             }
         }
 

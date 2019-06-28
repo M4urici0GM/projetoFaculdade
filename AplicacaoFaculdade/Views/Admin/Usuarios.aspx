@@ -1,20 +1,20 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/template/Admin.Master" AutoEventWireup="true" CodeBehind="Usuarios.aspx.cs" Inherits="AplicacaoFaculdade.Views.Usuarios" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/template/Admin.Master" AutoEventWireup="true" CodeBehind="Usuarios.aspx.cs" Inherits="AplicacaoFaculdade.Views.Admin.Usuarios" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="body" runat="server">
 
 
     <div class="container">
         <div class="row mt-4">
-           <div class="col-12 d-flex justify-content-between">
+           <div class="col-12 d-flex justify-content-between align-items-center">
                <h2>Usuarios</h2>
-               <button class="btn btn-outline-dark">
+               <a href="<%: GetRouteUrl("novoUsuario", null) %>" class="btn btn-outline-dark">
                    <i class="fas fa-user-plus"></i> &nbsp; Novo
-               </button>
+               </a>
            </div>
         </div>
         <hr />
         <div class="row">
             <div class="table-responsive">
-                <asp:GridView ID="userGridView" runat="server" AutoGenerateColumns="false" OnRowCommand="OnRowCommandEventHandler" 
+                <asp:GridView ID="userGridView" runat="server"  ShowHeaderWhenEmpty="true" EmptyDataText="Sem registros no sistema!" AutoGenerateColumns="false" DataKeyNames="usuarioId" OnRowCommand="OnRowCommandEventHandler" 
                     CssClass="table table-borderless table-hover text-center border-0" AllowPaging="true" OnPageIndexChanging="OnPageChangingIndex" PagerStyle-CssClass="pagination-ys">
                     <Columns>
                         <asp:BoundField DataField="pessoaNome" HeaderStyle-CssClass="text-center"  HeaderText="Nome"/>

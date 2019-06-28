@@ -18,9 +18,14 @@ namespace AplicacaoFaculdade
         }
 
         private void RegisterRoutes(RouteCollection route){
-            route.MapPageRoute("home", "", "~/Views/Index.aspx"); //Default project route
-            route.MapPageRoute("login", "login", "~/Views/Login.aspx"); //Default project route
-            route.MapPageRoute("usuarios", "usuarios", "~/Views/Usuarios.aspx");
+            route.MapPageRoute("home", "", "~/Views/User/Index.aspx"); //Default project route
+            route.MapPageRoute("adminLogin", "admin/login", "~/Views/Admin/Login.aspx"); //Default project route
+            route.MapPageRoute("adminHome", "admin", "~/Views/Admin/Index.aspx");
+            route.MapPageRoute("usuarios", "admin/usuarios", "~/Views/Admin/Usuarios.aspx");
+            route.MapPageRoute("editarUsuario", "admin/usuarios/editar/{usuarioId}", "~/Views/Admin/EditarUsuario.aspx");
+            route.MapPageRoute("novoUsuario", "admin/usuarios/novo", "~/Views/Admin/CadastrarUsuario.aspx");
+            route.MapPageRoute("pessoas", "admin/pessoas", "~/Views/Admin/Pessoas.aspx");
+            route.MapPageRoute("novaPessoa", "admin/pessoas/cadastrar", "~/Views/Admin/CadastrarPessoa.aspx");
         }
 
         private void RegisterAPIRoutes(RouteCollection routes) {

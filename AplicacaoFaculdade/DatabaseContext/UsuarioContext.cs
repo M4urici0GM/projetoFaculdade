@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using AplicacaoFaculdade.Enums;
+using System.Threading.Tasks;
 
 namespace AplicacaoFaculdade {
     public class UsuarioContext {
@@ -26,7 +27,7 @@ namespace AplicacaoFaculdade {
             LastSelection = new DataTable();
         }
 
-        public Usuario DoLogin(string usuarioLogin, string usuarioSenha) {
+        public async Task<Usuario> DoLogin(string usuarioLogin, string usuarioSenha) {
             string actualHash = Crypter.Hash(usuarioSenha);
 
             mySqlCommand = new MySqlCommand("SELECT usuarioId, usuarioLogin, usuarioSenha, pessoaId, pessoaNome FROM Usuarios LEFT JOIN Pessoas on usuarioFkPessoa = pessoaId WHERE usuarioLogin = @Email AND usuarioSenha = @Hash", databaseConn);
@@ -101,7 +102,7 @@ namespace AplicacaoFaculdade {
 
         public DataTable GetUsuarios(bool usuarioAtivos = true) {
             DataTable userDataTable = new DataTable();
-            mySqlCommand = new MySqlCommand("SELECT * FROM Usuarios left join Pessoas on usuarioFkPessoa = pessoaId WHERE usuarioStatus = @UserStatus", databaseConn);
+            mySqlCommand = new MySqlCommand("SELECT * FROM Usuarios left join Pessoas on usuarioFkPessoa = pessoaId WHERE usuarioStatus = @UserStatus AND usuarioId != 0", databaseConn);
             mySqlCommand.Parameters.AddWithValue("@UserStatus", usuarioAtivos);
             mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             using (mySqlDataAdapter) {

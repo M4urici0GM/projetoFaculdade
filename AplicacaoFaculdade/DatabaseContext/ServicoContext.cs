@@ -24,7 +24,6 @@ namespace AplicacaoFaculdade.DatabaseContext {
             LastSingleSelection = new Servico();
         }
 
-        //TODO: Refactor this part of code
         public DataTable GetServicos(bool ativos = true) {
             mySqlCommand = new MySqlCommand("SELECT * FROM Servicos INNER JOIN Turmas ON servicoId = turmaServico INNER JOIN PrecoServico ON servicoId = precoServicoFkServico WHERE servicoStatus = @ServicoStatus", databaseConnection);
             mySqlCommand.Parameters.AddWithValue("@ServicoStatus", ativos);
