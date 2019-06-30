@@ -23,8 +23,75 @@ namespace AplicacaoFaculdade.DatabaseContext {
             LastSelection = new DataTable();
         }
 
+        public bool CadastrarPessoa(Pessoa pessoa) {
+            string query = @"
+                INSERT INTO Pessoas() VALUES
+                (
+                    null, @PessoaNome, @PessoaSobrenome, true, @PessoaSexo, @PessoaNascimento, @PessoaTelefone,
+                    @PessoaCelular, @PessoaCNPJ, @PessoaCPF, @PessoaRG, @PessoaEndereco, @PessoaCep,
+                    @PessoaNumero, @PessoaComplemento, @PessoaCidade, @PessoaEstado
+                );
+            ";
+
+            using (mySqlCommand = new MySqlCommand(query, database)) {
+                mySqlCommand.Parameters.AddWithValue("@PessoaNome", pessoa.Nome);
+                mySqlCommand.Parameters.AddWithValue("@PessoaSobrenome", pessoa.Sobrenome);
+                mySqlCommand.Parameters.AddWithValue("@PessoaSexo", pessoa.Sexo);
+                mySqlCommand.Parameters.AddWithValue("@PessoaNascimento", pessoa.Nascimento);
+                mySqlCommand.Parameters.AddWithValue("@PessoaTelefone", pessoa.Telefone);
+                mySqlCommand.Parameters.AddWithValue("@PessoaCelular", pessoa.Celular);
+                mySqlCommand.Parameters.AddWithValue("@PessoaCNPJ", pessoa.Cnpj);
+                mySqlCommand.Parameters.AddWithValue("@PessoaCPF", pessoa.Cpf);
+                mySqlCommand.Parameters.AddWithValue("@PessoaRG", pessoa.Rg);
+                mySqlCommand.Parameters.AddWithValue("@PessoaEndereco", pessoa.Endereco);
+                mySqlCommand.Parameters.AddWithValue("@PessoaCep", pessoa.Cep);
+                mySqlCommand.Parameters.AddWithValue("@PessoaNumero", pessoa.Numero);
+                mySqlCommand.Parameters.AddWithValue("@PessoaComplemento", pessoa.Complemento);
+                mySqlCommand.Parameters.AddWithValue("@PessoaCidade", pessoa.Cidade);
+                mySqlCommand.Parameters.AddWithValue("@PessoaEstado", pessoa.Estado);
+                AffectedRows = mySqlCommand.ExecuteNonQuery();
+                LastInserted = (int) mySqlCommand.LastInsertedId;
+            }
+            return AffectedRows > 0;
+        }
+
+        public bool UpdatePessoa(Pessoa pessoa) {
+            string query = @"
+                UPDATE Pessoas SET
+                    pessoaNome = @PessoaNome, pessoaSobrenome = @PessoaSobrenome, pessoaStatus = @PessoaStatus, 
+                    pessoaSexo = @PessoaSexo, pessoaNascimento = @PessoaNascimento, pessoaTelefone = @PessoaTelefone,
+                    pessoaCelular = @PessoaCelular, pessoaCnpj = @PessoaCNPJ, pessoaCpf = @PessoaCPF, 
+                    pessoaRg = @PessoaRG, pessoaEndereco = @PessoaEndereco, pessoaCep = @PessoaCep,
+                    pessoaNumeroRua = @PessoaNumero, pessoaComplemento = @PessoaComplemento, pessoaCidade = @PessoaCidade, 
+                    pessoaEstado = @PessoaEstado
+                WHERE pessoaId = @PessoaId
+            ";
+            using (mySqlCommand = new MySqlCommand(query, database)) {
+                mySqlCommand.Parameters.AddWithValue("@PessoaNome", pessoa.Nome);
+                mySqlCommand.Parameters.AddWithValue("@PessoaSobrenome", pessoa.Sobrenome);
+                mySqlCommand.Parameters.AddWithValue("@PessoaSexo", pessoa.Sexo);
+                mySqlCommand.Parameters.AddWithValue("@PessoaNascimento", pessoa.Nascimento);
+                mySqlCommand.Parameters.AddWithValue("@PessoaTelefone", pessoa.Telefone);
+                mySqlCommand.Parameters.AddWithValue("@PessoaCelular", pessoa.Celular);
+                mySqlCommand.Parameters.AddWithValue("@PessoaCNPJ", pessoa.Cnpj);
+                mySqlCommand.Parameters.AddWithValue("@PessoaCPF", pessoa.Cpf);
+                mySqlCommand.Parameters.AddWithValue("@PessoaRG", pessoa.Rg);
+                mySqlCommand.Parameters.AddWithValue("@PessoaEndereco", pessoa.Endereco);
+                mySqlCommand.Parameters.AddWithValue("@PessoaCep", pessoa.Cep);
+                mySqlCommand.Parameters.AddWithValue("@PessoaNumero", pessoa.Numero);
+                mySqlCommand.Parameters.AddWithValue("@PessoaComplemento", pessoa.Complemento);
+                mySqlCommand.Parameters.AddWithValue("@PessoaCidade", pessoa.Cidade);
+                mySqlCommand.Parameters.AddWithValue("@PessoaEstado", pessoa.Estado);
+                mySqlCommand.Parameters.AddWithValue("@PessoaStatus", pessoa.Status);
+                mySqlCommand.Parameters.AddWithValue("@PessoaId", pessoa.Id);
+                AffectedRows = mySqlCommand.ExecuteNonQuery();
+                LastInserted = (int)mySqlCommand.LastInsertedId;
+            }
+            return AffectedRows > 0;
+        }
+
         public DataTable GetPessoas(bool pessoaStatus = true) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Pessoas WHERE pessoaStatus = @PessoaStatus", database);
+            mySqlCommand = new MySqlCommand("SELECT * FROM Pessoas WHERE pessoaStatus = @PessoaStatus AND pessoaId != 0", database);
             mySqlCommand.Parameters.AddWithValue("PessoaStatus", pessoaStatus);
             mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             using (mySqlDataAdapter) {
@@ -34,20 +101,30 @@ namespace AplicacaoFaculdade.DatabaseContext {
         }
 
         public Pessoa GetPessoa(int pessoaId) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Pessoas WHERE pessoaId = @PessoaId", database);
+            mySqlCommand = new MySqlCommand("SELECT * FROM Pessoas WHERE pessoaId = @PessoaId AND pessoaId != 0", database);
             mySqlCommand.Parameters.AddWithValue("@PessoaId", pessoaId);
             using (mySqlCommand) {
                 mySqlDataReader = mySqlCommand.ExecuteReader();
                 using (mySqlDataReader) {
                     if (mySqlDataReader.Read() && mySqlDataReader.HasRows) {
                         return new Pessoa() {
-                            Id = mySqlDataReader.GetInt32(0),
-                            Nome = mySqlDataReader.GetString(1),
-                            SobreNome = mySqlDataReader.GetString(2),
-                            Juridica = mySqlDataReader.GetBoolean(3),
-                            Status = mySqlDataReader.GetBoolean(4),
-                            Sexo = mySqlDataReader.GetBoolean(5),
-                            Nascimento = mySqlDataReader.GetDateTime(6)
+                           Id = mySqlDataReader.GetInt32(0),
+                           Nome = mySqlDataReader.GetString(1),
+                           Sobrenome = mySqlDataReader.GetString(2),
+                           Status = mySqlDataReader.GetBoolean(3),
+                           Sexo = mySqlDataReader.GetInt32(4),
+                           Nascimento = mySqlDataReader.GetDateTime(5),
+                           Telefone = mySqlDataReader.IsDBNull(6) ? (long?)null : mySqlDataReader.GetInt64(6),
+                           Celular = mySqlDataReader.IsDBNull(7) ? (long?)null : mySqlDataReader.GetInt64(7),
+                           Cnpj = mySqlDataReader.IsDBNull(8) ? (long?)null : mySqlDataReader.GetInt64(8),
+                           Cpf = mySqlDataReader.GetInt64(9),
+                           Rg = mySqlDataReader.IsDBNull(10) ? (long?)null : mySqlDataReader.GetInt64(10),
+                           Endereco = mySqlDataReader.GetString(11),
+                           Cep = mySqlDataReader.GetInt32(12),
+                           Numero = mySqlDataReader.GetInt32(13),
+                           Complemento = mySqlDataReader.IsDBNull(14) ? null : mySqlDataReader.GetString(11),
+                           Cidade = mySqlDataReader.GetString(15),
+                           Estado = mySqlDataReader.GetString(16)
                         };
                     }
                     return new Pessoa();
@@ -56,7 +133,7 @@ namespace AplicacaoFaculdade.DatabaseContext {
         }
 
         public Pessoa GetPessoa(Pessoa pessoa) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Pessoas WHERE pessoaId = @PessoaId", database);
+            mySqlCommand = new MySqlCommand("SELECT * FROM Pessoas WHERE pessoaId = @PessoaId AND pessoaId != 0", database);
             mySqlCommand.Parameters.AddWithValue("@PessoaId", pessoa.Id.Value);
             using (mySqlCommand) {
                 mySqlDataReader = mySqlCommand.ExecuteReader();
@@ -65,11 +142,21 @@ namespace AplicacaoFaculdade.DatabaseContext {
                         return new Pessoa() {
                             Id = mySqlDataReader.GetInt32(0),
                             Nome = mySqlDataReader.GetString(1),
-                            SobreNome = mySqlDataReader.GetString(2),
-                            Juridica = mySqlDataReader.GetBoolean(3),
-                            Status = mySqlDataReader.GetBoolean(4),
-                            Sexo = mySqlDataReader.GetBoolean(5),
-                            Nascimento = mySqlDataReader.GetDateTime(6)
+                            Sobrenome = mySqlDataReader.GetString(2),
+                            Status = mySqlDataReader.GetBoolean(3),
+                            Sexo = mySqlDataReader.GetInt32(4),
+                            Nascimento = mySqlDataReader.GetDateTime(5),
+                            Telefone = mySqlDataReader.IsDBNull(6) ? (long?)null : mySqlDataReader.GetInt64(6),
+                            Celular = mySqlDataReader.IsDBNull(7) ? (long?)null : mySqlDataReader.GetInt64(7),
+                            Cnpj = mySqlDataReader.IsDBNull(8) ? (long?)null : mySqlDataReader.GetInt64(8),
+                            Cpf = mySqlDataReader.GetInt64(9),
+                            Rg = mySqlDataReader.IsDBNull(10) ? (long?)null : mySqlDataReader.GetInt64(10),
+                            Endereco = mySqlDataReader.GetString(11),
+                            Cep = mySqlDataReader.GetInt32(12),
+                            Numero = mySqlDataReader.GetInt32(13),
+                            Complemento = mySqlDataReader.IsDBNull(14) ? null : mySqlDataReader.GetString(11),
+                            Cidade = mySqlDataReader.GetString(15),
+                            Estado = mySqlDataReader.GetString(16)
                         };
                     }
                     return new Pessoa();
@@ -78,22 +165,29 @@ namespace AplicacaoFaculdade.DatabaseContext {
         }
 
         public Funcionario GetPessoa(Funcionario funcionario) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Pessoas INNER JOIN Funcionarios ON pessoaId = funcionarioId WHERE funcionarioId = @FuncionarioId", database);
+            mySqlCommand = new MySqlCommand("SELECT * FROM Pessoas INNER JOIN Funcionarios ON pessoaId = funcionarioId WHERE funcionarioId = @FuncionarioId AND pessoaId != 0", database);
             mySqlCommand.Parameters.AddWithValue("@FuncionarioId", funcionario.Id);
             using (mySqlCommand) {
                 mySqlDataReader = mySqlCommand.ExecuteReader();
                 if (mySqlDataReader.HasRows && mySqlDataReader.Read()) {
                     return new Funcionario() {
-                        PessoaId = mySqlDataReader.GetInt32(0),
+                        Id = mySqlDataReader.GetInt32(0),
                         Nome = mySqlDataReader.GetString(1),
-                        SobreNome = mySqlDataReader.GetString(2),
-                        Juridica = mySqlDataReader.GetBoolean(3),
-                        PessoaStatus = mySqlDataReader.GetBoolean(4),
-                        Sexo = mySqlDataReader.GetBoolean(5),
-                        Nascimento = mySqlDataReader.GetDateTime(6),
-                        Id = mySqlDataReader.GetInt32(7),
-                        Status = mySqlDataReader.GetBoolean(9),
-                        FkCargo = mySqlDataReader.GetInt32(10),
+                        Sobrenome = mySqlDataReader.GetString(2),
+                        Status = mySqlDataReader.GetBoolean(3),
+                        Sexo = mySqlDataReader.GetInt32(4),
+                        Nascimento = mySqlDataReader.GetDateTime(5),
+                        Telefone = mySqlDataReader.IsDBNull(6) ? (long?)null : mySqlDataReader.GetInt64(6),
+                        Celular = mySqlDataReader.IsDBNull(7) ? (long?)null : mySqlDataReader.GetInt64(7),
+                        Cnpj = mySqlDataReader.IsDBNull(8) ? (long?)null : mySqlDataReader.GetInt64(8),
+                        Cpf = mySqlDataReader.GetInt64(9),
+                        Rg = mySqlDataReader.IsDBNull(10) ? (long?)null : mySqlDataReader.GetInt64(10),
+                        Endereco = mySqlDataReader.GetString(11),
+                        Cep = mySqlDataReader.GetInt32(12),
+                        Numero = mySqlDataReader.GetInt32(13),
+                        Complemento = mySqlDataReader.IsDBNull(14) ? null : mySqlDataReader.GetString(11),
+                        Cidade = mySqlDataReader.GetString(15),
+                        Estado = mySqlDataReader.GetString(16)
                     };
                 }
             }
@@ -101,21 +195,28 @@ namespace AplicacaoFaculdade.DatabaseContext {
         }
 
         public Aluno GetPessoa(Aluno aluno) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Pessoas INNER JOIN Alunos ON pessoaId = alunoId WHERE alunoID = @AlunoId", database);
+            mySqlCommand = new MySqlCommand("SELECT * FROM Pessoas INNER JOIN Alunos ON pessoaId = alunoId WHERE alunoID = @AlunoId AND pessoaId != 0", database);
             mySqlCommand.Parameters.AddWithValue("@AlunoId", aluno.Id);
             using (mySqlCommand) {
                 mySqlDataReader = mySqlCommand.ExecuteReader();
                 if (mySqlDataReader.HasRows && mySqlDataReader.Read()) {
                     return new Aluno() {
-                        PessoaId = mySqlDataReader.GetInt32(0),
+                        FkPessoa = mySqlDataReader.GetInt32(0),
                         Nome = mySqlDataReader.GetString(1),
-                        SobreNome = mySqlDataReader.GetString(2),
-                        Juridica = mySqlDataReader.GetBoolean(3),
-                        PessoaStatus = mySqlDataReader.GetBoolean(4),
-                        Sexo = mySqlDataReader.GetBoolean(5),
-                        Nascimento = mySqlDataReader.GetDateTime(6),
-                        Id = mySqlDataReader.GetInt32(7),
-                        Status = mySqlDataReader.GetBoolean(9),
+                        Sobrenome = mySqlDataReader.GetString(2),
+                        PessoaStatus = mySqlDataReader.GetBoolean(3),
+                        Sexo = mySqlDataReader.GetInt32(4),
+                        Nascimento = mySqlDataReader.GetDateTime(5),
+                        Telefone = mySqlDataReader.GetInt32(6),
+                        Celular = mySqlDataReader.GetInt32(7),
+                        Cnpj = mySqlDataReader.GetInt64(8),
+                        Cpf = mySqlDataReader.GetInt32(9),
+                        Numero = mySqlDataReader.GetInt32(10),
+                        Complemento = mySqlDataReader.GetString(11),
+                        Cidade = mySqlDataReader.GetString(12),
+                        Estado = mySqlDataReader.GetString(13),
+                        Id = mySqlDataReader.GetInt32(14),
+                        Status = mySqlDataReader.GetBoolean(16)
                     };
                 }
             }
@@ -123,7 +224,7 @@ namespace AplicacaoFaculdade.DatabaseContext {
         }
 
         public DataTable GetAlunos(bool ativos = true) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Alunos INNER JOIN Pessoas ON alunoFkPessoa = pessoaId WHERE alunoStatus = @AlunoStatus", database);
+            mySqlCommand = new MySqlCommand("SELECT * FROM Alunos INNER JOIN Pessoas ON alunoFkPessoa = pessoaId WHERE alunoStatus = @AlunoStatus AND pessoaId != 0", database);
             mySqlCommand.Parameters.AddWithValue("@AlunoStatus", ativos);
             using (mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand)) {
                 mySqlDataAdapter.Fill(LastSelection);
@@ -132,7 +233,7 @@ namespace AplicacaoFaculdade.DatabaseContext {
         }
 
         public DataTable GetFuncionarios(bool ativos = true) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Funcionarios INNER JOIN Pessoas ON funcionarioFkPessoa = pessoaId WHERE funcionarioStatus = @FuncionarioStatus", database);
+            mySqlCommand = new MySqlCommand("SELECT * FROM Funcionarios INNER JOIN Pessoas ON funcionarioFkPessoa = pessoaId WHERE funcionarioStatus = @FuncionarioStatus AND pessoaId != 0", database);
             mySqlCommand.Parameters.AddWithValue("@FuncionarioStatus", ativos);
             using (mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand)) {
                 mySqlDataAdapter.Fill(LastSelection);
@@ -141,7 +242,7 @@ namespace AplicacaoFaculdade.DatabaseContext {
         }
 
         public bool DeletePessoa(Pessoa pessoa) {
-            mySqlCommand = new MySqlCommand("UPDATE Pessoas SET pessoaStatus = 0 WHERE pessoaId = @PessoaId", database);
+            mySqlCommand = new MySqlCommand("UPDATE Pessoas SET pessoaStatus = 0 WHERE pessoaId = @PessoaId AND pessoaId != 0", database);
             mySqlCommand.Parameters.AddWithValue("@PessoaId", pessoa.Id.Value);
             using (mySqlCommand) {
                 return (mySqlCommand.ExecuteNonQuery() > 0);
@@ -149,7 +250,7 @@ namespace AplicacaoFaculdade.DatabaseContext {
         }
 
         public DataTable GetCargo(bool ativos = true) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Cargos WHERE cargoStatus = @CargoStatus", database);
+            mySqlCommand = new MySqlCommand("SELECT * FROM Cargos WHERE cargoStatus = @CargoStatus AND pessoaId != 0", database);
             mySqlCommand.Parameters.AddWithValue("@CargoStatus", ativos);
             using (mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand)) {
                 mySqlDataAdapter.Fill(LastSelection);
@@ -158,7 +259,7 @@ namespace AplicacaoFaculdade.DatabaseContext {
         }
 
         public Cargo GetCargo(Cargo cargo) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Cargos WHERE cargoId = @CargoId");
+            mySqlCommand = new MySqlCommand("SELECT * FROM Cargos WHERE cargoId = @CargoId AND pessoaId != 0");
             mySqlCommand.Parameters.AddWithValue("@CargoId", cargo.Id.Value);
             using (mySqlDataReader = mySqlCommand.ExecuteReader()) {
                 if (mySqlDataReader.Read() && mySqlDataReader.HasRows) {
@@ -205,6 +306,9 @@ namespace AplicacaoFaculdade.DatabaseContext {
             return new Cargo();
         }
 
-        //TODO: Implement new SalarioContext
+        public void DisposeConnection() {
+            database.Close();
+            database.Dispose();
+        }
     }
 }

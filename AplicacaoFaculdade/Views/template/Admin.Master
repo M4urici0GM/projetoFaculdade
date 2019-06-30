@@ -18,41 +18,21 @@
     <script src="https://kit.fontawesome.com/45c41bbb45.js"></script>
     <script src="https://momentjs.com/downloads/moment.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
-
-    
+    <script type="text/javascript" src="/Cdn/Utils.js"></script>
 </head>
 <body>
-    <script type="text/javascript">
-        function confirmAction() {
-            event.preventDefault();
-             Swal.fire({
-                 type: 'warning',
-                 title: 'Sair',
-                 text: 'Deseja sair do sistema ?',
-                 showCancelButton: true,
-                 confirmButtonText: 'Sim',
-                 cancelButtonText: 'Fechar'
-             }).then(result => {
-                 if (result.dismiss)
-                     return false;
-                 if (result.value)
-                     __doPostBack('<%= logoutButton.UniqueID %>', '');
-             });
-
-        }
-    </script>
     <form id="form1" runat="server">
         <div>
             <nav class="navbar navbar-dark bg-dark navbar-expand-md">
                 <div class="container">
-                    <a class="navbar-brand" href="/">
+                    <a class="navbar-brand" href="/admin">
                         <i class="fas fa-home"></i>
                         Início
                     </a>
                     <div class="collapse navbar-collapse">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item dropdown">
-                                <a href="/relatorios" class="nav-link">
+                                <a href="/admin/relatorios" class="nav-link">
                                     <i class="fas fa-flag"></i> Relatórios
                                 </a>
                             </li>
@@ -61,10 +41,10 @@
                                     <i class="fas fa-dolly"></i> Serviços
                                 </a>
                                 <div class="dropdown-menu w-auto mt-2">
-                                    <a href="/servicos" class="dropdown-item d-flex justify-content-between align-items-center">
+                                    <a href="/admin/servicos" class="dropdown-item d-flex justify-content-between align-items-center">
                                         <i class="fas fa-th-list"></i> Listar
                                     </a>
-                                    <a href="/servicos/contratos" class="dropdown-item d-flex justify-content-between align-items-center">
+                                    <a href="/admin/servicos/contratos" class="dropdown-item d-flex justify-content-between align-items-center">
                                         <i class="fas fa-file-contract"></i> Contratos
                                     </a>
                                 </div>
@@ -74,13 +54,13 @@
                                     <i class="fas fa-money-bill-wave"></i> Financeiro
                                 </a>
                                 <div class="dropdown-menu w-auto mt-2">
-                                    <a href="/caixa" class="dropdown-item d-flex justify-content-between align-items-center">
+                                    <a href="/admin/caixa" class="dropdown-item d-flex justify-content-between align-items-center">
                                         <i class="fas fa-file-invoice-dollar"></i> Caixa
                                     </a>
-                                    <a href="/caixa/movimento" class="dropdown-item d-flex justify-content-between align-items-center">
+                                    <a href="/admin/caixa/movimento" class="dropdown-item d-flex justify-content-between align-items-center">
                                         <i class="fas fa-receipt"></i> Movimento
                                     </a>
-                                    <a href="/caixa/contas" class="dropdown-item d-flex justify-content-between align-items-center">
+                                    <a href="/admin/caixa/contas" class="dropdown-item d-flex justify-content-between align-items-center">
                                         <i class="fas fa-piggy-bank"></i> Contas
                                     </a>
                                 </div>
@@ -90,13 +70,13 @@
                                     <i class="fas fa-users"></i> Pessoas
                                 </a>
                                 <div class="dropdown-menu w-auto mt-2">
-                                    <a href="/pessoas" class="dropdown-item d-flex justify-content-between align-items-center">
+                                    <a href="/admin/pessoas" class="dropdown-item d-flex justify-content-between align-items-center">
                                         <i class="fas fa-users"></i> Cadastros
                                     </a>
-                                    <a href="/pessoas/alunos" class="dropdown-item d-flex justify-content-between align-items-center">
+                                    <a href="/admin/pessoas/alunos" class="dropdown-item d-flex justify-content-between align-items-center">
                                         <i class="fas fa-user-graduate"></i> Alunos
                                     </a>
-                                    <a href="/pessoas/funcionarios" class="dropdown-item d-flex justify-content-between align-items-center">
+                                    <a href="/admin/pessoas/funcionarios" class="dropdown-item d-flex justify-content-between align-items-center">
                                         <i class="fas fa-user-tie"></i> &nbsp; Colab.
                                     </a>
                                 </div>
@@ -106,13 +86,13 @@
                                     <i class="fas fa-cogs"></i> Opções
                                 </a>
                                 <div class="dropdown-menu w-auto mt-2">
-                                    <a href="/config" class="dropdown-item d-flex justify-content-between align-items-center">
+                                    <a href="/admin/config" class="dropdown-item d-flex justify-content-between align-items-center">
                                         <i class="fas fa-cog"></i> Config.
                                     </a>
-                                    <a href="/usuarios" class="dropdown-item d-flex justify-content-between align-items-center">
+                                    <a href="/admin/usuarios" class="dropdown-item d-flex justify-content-between align-items-center">
                                         <i class="fas fa-user"></i> Usuarios.
                                     </a>
-                                    <a href="/usuarios/cargos" class="dropdown-item d-flex justify-content-between align-items-center">
+                                    <a href="/admin/usuarios/cargos" class="dropdown-item d-flex justify-content-between align-items-center">
                                         <i class="fas fa-users-cog"></i> Cargos.
                                     </a>
                                     <asp:LinkButton runat="server" ID="logoutButton" Cssclass="dropdown-item d-flex justify-content-between align-items-center" OnClientClick="return confirmAction();" OnClick="DoLogout" >

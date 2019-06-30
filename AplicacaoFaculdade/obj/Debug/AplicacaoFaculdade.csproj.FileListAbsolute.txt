@@ -322,3 +322,5 @@ C:\Users\M4urici0GM\Desktop\Projects\projetoFaculdade\AplicacaoFaculdade\bin\pt-
 C:\Users\M4urici0GM\Desktop\Projects\projetoFaculdade\AplicacaoFaculdade\obj\Debug\AplicacaoFaculdade.csproj.CopyComplete
 C:\Users\M4urici0GM\Desktop\Projects\projetoFaculdade\AplicacaoFaculdade\bin\Google.Protobuf.dll
 C:\Users\M4urici0GM\Desktop\Projects\projetoFaculdade\AplicacaoFaculdade\bin\BouncyCastle.Crypto.dll
+C:\Users\M4urici0GM\Desktop\Projects\projetoFaculdade\AplicacaoFaculdade\bin\Newtonsoft.Json.dll
+C:\Users\M4urici0GM\Desktop\Projects\projetoFaculdade\AplicacaoFaculdade\bin\Newtonsoft.Json.xml
