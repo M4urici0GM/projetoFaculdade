@@ -79,7 +79,7 @@ namespace AplicacaoFaculdade.Views.Admin {
                 Nome = pessoaNome.Text,
                 Sobrenome = pessoaSobrenome.Text,
                 Sexo = Convert.ToInt32(pessoaSexo.SelectedValue),
-                Nascimento = DateTime.ParseExact(pessoaNascimento.Text, "dd/MM/yyyy", null),
+                Nascimento = DateTime.Parse(pessoaNascimento.Text),
                 Telefone = string.IsNullOrEmpty(pessoaTelefone.Text) ? (long?)null : Convert.ToInt64(pessoaTelefone.Text),
                 Celular = string.IsNullOrEmpty(pessoaCelular.Text) ? (long?)null : Convert.ToInt64(pessoaCelular.Text),
                 Rg = string.IsNullOrEmpty(pessoaRg.Text) ? (long?)null : Convert.ToInt64(pessoaRg.Text),

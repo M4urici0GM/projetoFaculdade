@@ -4,10 +4,25 @@ window.onload = () => {
         format: 'L'
     });
     
-    document.getElementById('adicionarUsuarioBtn').addEventListener('click', () => {
+    $('#adicionarUsuarioBtn').on('click', () => {
         $('#adicionarUsuarioModal').modal('show');
     });
+
+    $('.select2').select2({
+        theme: "bootstrap",
+        placeholder: 'Selecione um registro:',
+        "language": {
+            "noResults": () => {
+                return "Sem registros no sistema";
+            }
+        }
+    });
 }
+
+function validateSearchField(field) {
+    return (field.value == "") ? false : true;
+}
+
 
 function confirmDelete(sender) {
     if (sender.getAttribute('confirmed') == 'true') { return true; }
@@ -27,8 +42,8 @@ function confirmDelete(sender) {
     return false;
 }
 
-function confirmAction() {
-    event.preventDefault();
+function confirmLogout(sender) {
+    if (sender.getAttribute('confirmed') == "true") { return true; }
     Swal.fire({
         type: 'warning',
         title: 'Sair',
@@ -37,12 +52,12 @@ function confirmAction() {
         confirmButtonText: 'Sim',
         cancelButtonText: 'Fechar'
     }).then(result => {
-        if (result.dismiss)
-            return false;
-        if (result.value)
-            __doPostBack('<%= logoutButton.UniqueID %>', '');
+        if (result.value) {
+            sender.setAttribute('confirmed', true);
+            sender.click();
+        }
     });
-
+    return false;
 }
 async function getCEP(text) {
     var text = document.getElementById('pessoaCep').value;

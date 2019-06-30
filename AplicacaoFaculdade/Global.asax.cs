@@ -27,6 +27,7 @@ namespace AplicacaoFaculdade
             route.MapPageRoute("pessoas", "admin/pessoas", "~/Views/Admin/Pessoas.aspx");
             route.MapPageRoute("novaPessoa", "admin/pessoas/cadastrar", "~/Views/Admin/CadastrarPessoa.aspx");
             route.MapPageRoute("editarPessoa", "admin/pessoas/editar/{pessoaId}", "~/Views/Admin/EditarPessoa.aspx");
+            route.MapPageRoute("alunos", "admin/pessoas/alunos", "~/Views/Admin/Alunos.aspx");
         }
 
         private void RegisterAPIRoutes(RouteCollection routes) {
