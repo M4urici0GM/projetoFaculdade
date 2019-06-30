@@ -92,6 +92,7 @@
     <Content Include="Views\Admin\Alunos.aspx" />
     <Content Include="Views\Admin\CadastrarPessoa.aspx" />
     <Content Include="Views\Admin\CadastrarUsuario.aspx" />
+    <Content Include="Views\Admin\Cargos.aspx" />
     <Content Include="Views\Admin\EditarPessoa.aspx" />
     <Content Include="Views\Admin\EditarUsuario.aspx" />
     <Content Include="Views\Admin\Index.aspx" />
@@ -141,6 +142,13 @@
     </Compile>
     <Compile Include="Views\Admin\CadastrarUsuario.aspx.designer.cs">
       <DependentUpon>CadastrarUsuario.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\Cargos.aspx.cs">
+      <DependentUpon>Cargos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Admin\Cargos.aspx.designer.cs">
+      <DependentUpon>Cargos.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\Admin\EditarPessoa.aspx.cs">
       <DependentUpon>EditarPessoa.aspx</DependentUpon>

@@ -86,7 +86,7 @@
                                     <a href="/admin/pessoas/funcionarios" class="dropdown-item d-flex justify-content-between align-items-center">
                                         <i class="fas fa-user-tie"></i> &nbsp; Colab.
                                     </a>
-                                    <a href="/admin/usuarios/cargos" class="dropdown-item d-flex justify-content-between align-items-center">
+                                    <a href="/admin/pessoas/cargos" class="dropdown-item d-flex justify-content-between align-items-center">
                                         <i class="fas fa-users-cog"></i> Cargos.
                                     </a>
                                 </div>

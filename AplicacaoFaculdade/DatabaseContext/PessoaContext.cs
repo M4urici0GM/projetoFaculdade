@@ -250,7 +250,7 @@ namespace AplicacaoFaculdade.DatabaseContext {
         }
 
         public int CreateAluno(Pessoa pessoa) {
-            string query = "SELECT * FROM Alunos WHERE alunoFkPessoa = @FkPessoa";
+            string query = "SELECT * FROM Alunos WHERE alunoFkPessoa = @FkPessoa AND alunoStatus = true";
             mySqlCommand = new MySqlCommand(query, database);
             mySqlCommand.Parameters.AddWithValue("@FkPessoa", pessoa.Id);
             mySqlDataReader = mySqlCommand.ExecuteReader();
@@ -325,8 +325,17 @@ namespace AplicacaoFaculdade.DatabaseContext {
             }
         }
 
+        public bool CreateCargo(Cargo cargo) {
+            string query = "INSERT INTO Cargos () VALUES (null, @CargoNome, @CargoSalario, true)";
+            mySqlCommand = new MySqlCommand(query, database);
+            mySqlCommand.Parameters.AddWithValue("@CargoNome", cargo.Nome);
+            mySqlCommand.Parameters.AddWithValue("@CargoSalario", cargo.Salario);
+            AffectedRows = mySqlCommand.ExecuteNonQuery();
+            return AffectedRows > 0;
+        }
+
         public DataTable GetCargo(bool ativos = true) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Cargos WHERE cargoStatus = @CargoStatus AND pessoaId != 0", database);
+            mySqlCommand = new MySqlCommand("SELECT * FROM Cargos WHERE cargoStatus = @CargoStatus", database);
             mySqlCommand.Parameters.AddWithValue("@CargoStatus", ativos);
             using (mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand)) {
                 mySqlDataAdapter.Fill(LastSelection);
@@ -335,7 +344,7 @@ namespace AplicacaoFaculdade.DatabaseContext {
         }
 
         public Cargo GetCargo(Cargo cargo) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Cargos WHERE cargoId = @CargoId AND pessoaId != 0");
+            mySqlCommand = new MySqlCommand("SELECT * FROM Cargos WHERE cargoId = @CargoId", database);
             mySqlCommand.Parameters.AddWithValue("@CargoId", cargo.Id.Value);
             using (mySqlDataReader = mySqlCommand.ExecuteReader()) {
                 if (mySqlDataReader.Read() && mySqlDataReader.HasRows) {
@@ -348,6 +357,23 @@ namespace AplicacaoFaculdade.DatabaseContext {
                 }
             }
             return new Cargo();
+        }
+
+        public bool UpdateCargo(Cargo cargo) {
+            string query = @"
+                UPDATE Cargos 
+                SET 
+                    cargoNome = @CargoNome, cargoSalario = @CargoSalario, cargoStatus = @CargoStatus
+                WHERE
+                    cargoId = @CargoId
+                ";
+            mySqlCommand = new MySqlCommand(query, database);
+            mySqlCommand.Parameters.AddWithValue("@CargoNome", cargo.Nome);
+            mySqlCommand.Parameters.AddWithValue("@CargoSalario", cargo.Salario);
+            mySqlCommand.Parameters.AddWithValue("@CargoStatus", cargo.Status);
+            mySqlCommand.Parameters.AddWithValue("@Cargoid", cargo.Id);
+            AffectedRows = mySqlCommand.ExecuteNonQuery();
+            return AffectedRows > 0;
         }
 
         public Cargo GetCargo(Pessoa pessoa) {

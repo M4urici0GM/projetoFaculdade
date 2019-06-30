@@ -180,7 +180,7 @@
             <div class="col-12 col-md-6 offset-md-6">
                 <div class="row">
                     <div class="col-6">
-                        <a class="btn btn-outline-dark btn-block" href="#">
+                        <a class="btn btn-outline-dark btn-block" href="<%: GetRouteUrl("pessoas", null) %>">
                             <i class="fas fa-arrow-left"></i>&nbsp; Voltar
                         </a>
                     </div>
