@@ -89,6 +89,7 @@
     <Content Include="Cdn\MainStyle.css" />
     <Content Include="Cdn\Utils.js" />
     <Content Include="Global.asax" />
+    <Content Include="Views\Admin\Alunos.aspx" />
     <Content Include="Views\Admin\CadastrarPessoa.aspx" />
     <Content Include="Views\Admin\CadastrarUsuario.aspx" />
     <Content Include="Views\Admin\EditarPessoa.aspx" />
@@ -120,6 +121,13 @@
     </Compile>
     <Compile Include="Global\RouteConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Admin\Alunos.aspx.cs">
+      <DependentUpon>Alunos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Admin\Alunos.aspx.designer.cs">
+      <DependentUpon>Alunos.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Admin\CadastrarPessoa.aspx.cs">
       <DependentUpon>CadastrarPessoa.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

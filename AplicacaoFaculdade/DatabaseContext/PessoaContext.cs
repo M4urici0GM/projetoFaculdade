@@ -12,7 +12,7 @@ namespace AplicacaoFaculdade.DatabaseContext {
         public int? AffectedRows { get; private set; }
         public int? LastInserted { get; private set; }
         public DataTable LastSelection { get; set; }
-        
+
         private readonly MySqlConnection database;
         private MySqlCommand mySqlCommand;
         private MySqlDataAdapter mySqlDataAdapter;
@@ -50,7 +50,7 @@ namespace AplicacaoFaculdade.DatabaseContext {
                 mySqlCommand.Parameters.AddWithValue("@PessoaCidade", pessoa.Cidade);
                 mySqlCommand.Parameters.AddWithValue("@PessoaEstado", pessoa.Estado);
                 AffectedRows = mySqlCommand.ExecuteNonQuery();
-                LastInserted = (int) mySqlCommand.LastInsertedId;
+                LastInserted = (int)mySqlCommand.LastInsertedId;
             }
             return AffectedRows > 0;
         }
@@ -108,23 +108,23 @@ namespace AplicacaoFaculdade.DatabaseContext {
                 using (mySqlDataReader) {
                     if (mySqlDataReader.Read() && mySqlDataReader.HasRows) {
                         return new Pessoa() {
-                           Id = mySqlDataReader.GetInt32(0),
-                           Nome = mySqlDataReader.GetString(1),
-                           Sobrenome = mySqlDataReader.GetString(2),
-                           Status = mySqlDataReader.GetBoolean(3),
-                           Sexo = mySqlDataReader.GetInt32(4),
-                           Nascimento = mySqlDataReader.GetDateTime(5),
-                           Telefone = mySqlDataReader.IsDBNull(6) ? (long?)null : mySqlDataReader.GetInt64(6),
-                           Celular = mySqlDataReader.IsDBNull(7) ? (long?)null : mySqlDataReader.GetInt64(7),
-                           Cnpj = mySqlDataReader.IsDBNull(8) ? (long?)null : mySqlDataReader.GetInt64(8),
-                           Cpf = mySqlDataReader.GetInt64(9),
-                           Rg = mySqlDataReader.IsDBNull(10) ? (long?)null : mySqlDataReader.GetInt64(10),
-                           Endereco = mySqlDataReader.GetString(11),
-                           Cep = mySqlDataReader.GetInt32(12),
-                           Numero = mySqlDataReader.GetInt32(13),
-                           Complemento = mySqlDataReader.IsDBNull(14) ? null : mySqlDataReader.GetString(11),
-                           Cidade = mySqlDataReader.GetString(15),
-                           Estado = mySqlDataReader.GetString(16)
+                            Id = mySqlDataReader.GetInt32(0),
+                            Nome = mySqlDataReader.GetString(1),
+                            Sobrenome = mySqlDataReader.GetString(2),
+                            Status = mySqlDataReader.GetBoolean(3),
+                            Sexo = mySqlDataReader.GetInt32(4),
+                            Nascimento = mySqlDataReader.GetDateTime(5),
+                            Telefone = mySqlDataReader.IsDBNull(6) ? (long?)null : mySqlDataReader.GetInt64(6),
+                            Celular = mySqlDataReader.IsDBNull(7) ? (long?)null : mySqlDataReader.GetInt64(7),
+                            Cnpj = mySqlDataReader.IsDBNull(8) ? (long?)null : mySqlDataReader.GetInt64(8),
+                            Cpf = mySqlDataReader.GetInt64(9),
+                            Rg = mySqlDataReader.IsDBNull(10) ? (long?)null : mySqlDataReader.GetInt64(10),
+                            Endereco = mySqlDataReader.GetString(11),
+                            Cep = mySqlDataReader.GetInt32(12),
+                            Numero = mySqlDataReader.GetInt32(13),
+                            Complemento = mySqlDataReader.IsDBNull(14) ? null : mySqlDataReader.GetString(11),
+                            Cidade = mySqlDataReader.GetString(15),
+                            Estado = mySqlDataReader.GetString(16)
                         };
                     }
                     return new Pessoa();
@@ -230,6 +230,82 @@ namespace AplicacaoFaculdade.DatabaseContext {
                 mySqlDataAdapter.Fill(LastSelection);
             }
             return LastSelection;
+        }
+
+        public Aluno GetAluno(Aluno aluno) {
+            string query = @"
+                SELECT * FROM Alunos WHERE alunoId = @AlunoId
+            ";
+            mySqlCommand = new MySqlCommand(query, database);
+            mySqlCommand.Parameters.AddWithValue("@AlunoId", aluno.Id);
+            mySqlDataReader = mySqlCommand.ExecuteReader();
+            if (mySqlDataReader.HasRows && mySqlDataReader.Read()) {
+                return new Aluno() {
+                    Id = mySqlDataReader.GetInt32(0),
+                    FkPessoa = mySqlDataReader.GetInt32(1),
+                    Status = mySqlDataReader.GetBoolean(2)
+                };
+            }
+            return new Aluno();
+        }
+
+        public int CreateAluno(Pessoa pessoa) {
+            string query = "SELECT * FROM Alunos WHERE alunoFkPessoa = @FkPessoa";
+            mySqlCommand = new MySqlCommand(query, database);
+            mySqlCommand.Parameters.AddWithValue("@FkPessoa", pessoa.Id);
+            mySqlDataReader = mySqlCommand.ExecuteReader();
+            if (mySqlDataReader.HasRows) {
+                return 2;
+            } else {
+                mySqlDataReader.Close();
+                query = "INSERT INTO Alunos() VALUES (null, @FkPessoa, true)";
+                mySqlCommand.CommandText = query;
+                AffectedRows = mySqlCommand.ExecuteNonQuery();
+                return (AffectedRows > 0) ? 1 : 0;
+            }
+        }
+
+        public bool UpdateAluno(Aluno aluno) {
+            string query = @"UPDATE Alunos SET alunoFkPessoa = @FkPessoa, alunoStatus = @AlunoStatus WHERE alunoId = @AlunoId";
+            mySqlCommand = new MySqlCommand(query, database);
+            mySqlCommand.Parameters.AddWithValue("@FkPessoa", aluno.FkPessoa);
+            mySqlCommand.Parameters.AddWithValue("@AlunoStatus", aluno.Status);
+            mySqlCommand.Parameters.AddWithValue("@AlunoId", aluno.Id);
+            AffectedRows = mySqlCommand.ExecuteNonQuery();
+            return AffectedRows > 0;
+        }
+
+        public Pessoa GetPessoa(long documentoNumero) {
+            string query = @"
+                SELECT * FROM Pessoas
+                WHERE
+                    (pessoaRg = @Documento OR pessoaCpf = @Documento OR pessoaCnpj = @Documento) AND pessoaId != 0 AND pessoaStatus = true
+            ";
+            mySqlCommand = new MySqlCommand(query, database);
+            mySqlCommand.Parameters.AddWithValue("@Documento", documentoNumero);
+            mySqlDataReader = mySqlCommand.ExecuteReader();
+            if (mySqlDataReader.HasRows && mySqlDataReader.Read()) {
+                return new Pessoa() {
+                    Id = mySqlDataReader.GetInt32(0),
+                    Nome = mySqlDataReader.GetString(1),
+                    Sobrenome = mySqlDataReader.GetString(2),
+                    Status = mySqlDataReader.GetBoolean(3),
+                    Sexo = mySqlDataReader.GetInt32(4),
+                    Nascimento = mySqlDataReader.GetDateTime(5),
+                    Telefone = mySqlDataReader.IsDBNull(6) ? (long?)null : mySqlDataReader.GetInt64(6),
+                    Celular = mySqlDataReader.IsDBNull(7) ? (long?)null : mySqlDataReader.GetInt64(7),
+                    Cnpj = mySqlDataReader.IsDBNull(8) ? (long?)null : mySqlDataReader.GetInt64(8),
+                    Cpf = mySqlDataReader.GetInt64(9),
+                    Rg = mySqlDataReader.IsDBNull(10) ? (long?)null : mySqlDataReader.GetInt64(10),
+                    Endereco = mySqlDataReader.GetString(11),
+                    Cep = mySqlDataReader.GetInt32(12),
+                    Numero = mySqlDataReader.GetInt32(13),
+                    Complemento = mySqlDataReader.IsDBNull(14) ? null : mySqlDataReader.GetString(11),
+                    Cidade = mySqlDataReader.GetString(15),
+                    Estado = mySqlDataReader.GetString(16)
+                };
+            }
+            return new Pessoa();
         }
 
         public DataTable GetFuncionarios(bool ativos = true) {

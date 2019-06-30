@@ -17,7 +17,7 @@ namespace AplicacaoFaculdade.Views.template {
 
         public void DoLogout(object sender, EventArgs e) {
             Session.Abandon();
-            Response.RedirectToRoute("home");
+            Response.RedirectToRoute("adminLogin");
         }
     }
 }
