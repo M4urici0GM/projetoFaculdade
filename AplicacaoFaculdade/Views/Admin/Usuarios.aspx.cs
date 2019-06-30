@@ -26,8 +26,14 @@ namespace AplicacaoFaculdade.Views.Admin {
 
         public void OnRowCommandEventHandler(object sender, GridViewCommandEventArgs e) {
             GridViewRow gvRow = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
-            int usuarioId = (int) userGridView.DataKeys[gvRow.RowIndex].Value;
-            Response.RedirectToRoute($"editarUsuario", new { usuarioId });
+            int usuarioId = (int)userGridView.DataKeys[gvRow.RowIndex].Value;
+            if (e.CommandName == "editarUsuario") {
+                Response.RedirectToRoute($"editarUsuario", new { usuarioId });
+            } else if (e.CommandName == "excluirUsuario") {
+
+            }
+
+            
         }
 
         public void OnPageChangingIndex(object sender, GridViewPageEventArgs e) {

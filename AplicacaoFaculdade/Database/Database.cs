@@ -9,7 +9,6 @@ using System.Data;
 namespace AplicacaoFaculdade
 {
     public class Database {
-        private static Database databaseInstance = new Database();
 
         private string _connectionString;
         private MySqlConnection _mySqlConn;
@@ -50,7 +49,12 @@ namespace AplicacaoFaculdade
             }
         }
 
-        public static Database GetInstance() => databaseInstance;
+        public void CloseConnection() {
+            _mySqlConn.Close();
+            _mySqlConn.Dispose();
+        }
+
+        public static Database GetInstance() => new Database();
 
     }
 
