@@ -27,4 +27,10 @@ namespace AplicacaoFaculdade.Enums {
         VALUE,
     }
 
+    public enum NivelAcesso {
+        SUPERADMIN = 0,
+        FUNCIONARIO = 4
+    }
+
+
 }

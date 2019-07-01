@@ -95,9 +95,12 @@
     <Content Include="Views\Admin\Cargos.aspx" />
     <Content Include="Views\Admin\EditarPessoa.aspx" />
     <Content Include="Views\Admin\EditarUsuario.aspx" />
+    <Content Include="Views\Admin\Funcionarios.aspx" />
     <Content Include="Views\Admin\Index.aspx" />
     <Content Include="Views\Admin\Login.aspx" />
     <Content Include="Views\Admin\Pessoas.aspx" />
+    <Content Include="Views\Admin\Servicos.aspx" />
+    <Content Include="Views\Admin\Turmas.aspx" />
     <Content Include="Views\Admin\Usuarios.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -164,6 +167,13 @@
     <Compile Include="Views\Admin\EditarUsuario.aspx.designer.cs">
       <DependentUpon>EditarUsuario.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Views\Admin\Funcionarios.aspx.cs">
+      <DependentUpon>Funcionarios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Admin\Funcionarios.aspx.designer.cs">
+      <DependentUpon>Funcionarios.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Admin\Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -184,6 +194,20 @@
     </Compile>
     <Compile Include="Views\Admin\Pessoas.aspx.designer.cs">
       <DependentUpon>Pessoas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\Servicos.aspx.cs">
+      <DependentUpon>Servicos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Admin\Servicos.aspx.designer.cs">
+      <DependentUpon>Servicos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\Turmas.aspx.cs">
+      <DependentUpon>Turmas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Admin\Turmas.aspx.designer.cs">
+      <DependentUpon>Turmas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\template\Admin.Master.cs">
       <DependentUpon>Admin.Master</DependentUpon>

@@ -317,11 +317,47 @@ namespace AplicacaoFaculdade.DatabaseContext {
             return LastSelection;
         }
 
-        public bool DeletePessoa(Pessoa pessoa) {
-            mySqlCommand = new MySqlCommand("UPDATE Pessoas SET pessoaStatus = 0 WHERE pessoaId = @PessoaId AND pessoaId != 0", database);
-            mySqlCommand.Parameters.AddWithValue("@PessoaId", pessoa.Id.Value);
-            using (mySqlCommand) {
-                return (mySqlCommand.ExecuteNonQuery() > 0);
+        public Funcionario GetFuncionario(Funcionario funcionario) {
+            string query = "SELECT * FROM Funcionarios WHERE funcionarioId = @FuncionarioId";
+            mySqlCommand = new MySqlCommand(query, database);
+            mySqlCommand.Parameters.AddWithValue("@FuncionarioId", funcionario.Id);
+            mySqlDataReader = mySqlCommand.ExecuteReader();
+            if (mySqlDataReader.HasRows && mySqlDataReader.Read()) {
+                return new Funcionario() {
+                    Id = mySqlDataReader.GetInt32(0),
+                    FkPessoa = mySqlDataReader.GetInt32(1),
+                    Status = mySqlDataReader.GetBoolean(2),
+                    FkCargo = mySqlDataReader.GetInt32(3)
+                };
+            }
+
+            return new Funcionario();
+        }
+
+        public bool UpdateFuncionario(Funcionario funcionario) {
+            string query = "UPDATE Funcionarios SET funcionarioStatus = @FuncionarioStatus, funcionarioCargo = @FuncionarioCargo";
+            mySqlCommand = new MySqlCommand(query, database);
+            mySqlCommand.Parameters.AddWithValue("@FuncionarioStatus", funcionario.Status);
+            mySqlCommand.Parameters.AddWithValue("@FuncionarioCargo", funcionario.FkCargo);
+            AffectedRows = mySqlCommand.ExecuteNonQuery();
+            return AffectedRows > 0;
+        }
+
+        public int CreateFuncionario(Funcionario funcionario) {
+            string query = "SELECT * FROM Funcionarios WHERE funcionarioFkPessoa = @FkPessoa AND funcionarioStatus = true";
+            mySqlCommand = new MySqlCommand(query, database);
+            mySqlCommand.Parameters.AddWithValue("@FkPessoa", funcionario.FkPessoa);
+            mySqlDataReader = mySqlCommand.ExecuteReader();
+            if (mySqlDataReader.HasRows) {
+                mySqlDataReader.Close();
+                return 2;
+            } else {
+                mySqlDataReader.Close();
+                query = "INSERT INTO Funcionarios(funcionarioFkPessoa, funcionarioCargo) VALUES (@FkPessoa, @FkCargo)";
+                mySqlCommand.CommandText = query;
+                mySqlCommand.Parameters.AddWithValue("@FkCargo", funcionario.FkCargo);
+                AffectedRows = mySqlCommand.ExecuteNonQuery();
+                return (AffectedRows > 0) ? 1 : 0;
             }
         }
 

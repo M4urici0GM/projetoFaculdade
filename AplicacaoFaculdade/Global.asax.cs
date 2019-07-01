@@ -30,7 +30,7 @@ namespace AplicacaoFaculdade
             route.MapPageRoute("alunos", "admin/pessoas/alunos", "~/Views/Admin/Alunos.aspx");
             route.MapPageRoute("cargos", "admin/pessoas/cargos", "~/Views/Admin/Cargos.aspx");
             route.MapPageRoute("funcionarios", "admin/pessoas/funcionarios", "~/Views/Admin/Funcionarios.aspx");
-
+            route.MapPageRoute("servicos", "admin/servicos", "~/Views/Admin/Servicos.aspx");
         }
 
         private void RegisterAPIRoutes(RouteCollection routes) {
