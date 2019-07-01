@@ -98,6 +98,7 @@
     <Content Include="Views\Admin\Funcionarios.aspx" />
     <Content Include="Views\Admin\Index.aspx" />
     <Content Include="Views\Admin\Login.aspx" />
+    <Content Include="Views\Admin\NovaTurma.aspx" />
     <Content Include="Views\Admin\Pessoas.aspx" />
     <Content Include="Views\Admin\Servicos.aspx" />
     <Content Include="Views\Admin\Turmas.aspx" />
@@ -187,6 +188,13 @@
     </Compile>
     <Compile Include="Views\Admin\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\NovaTurma.aspx.cs">
+      <DependentUpon>NovaTurma.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Admin\NovaTurma.aspx.designer.cs">
+      <DependentUpon>NovaTurma.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\Admin\Pessoas.aspx.cs">
       <DependentUpon>Pessoas.aspx</DependentUpon>

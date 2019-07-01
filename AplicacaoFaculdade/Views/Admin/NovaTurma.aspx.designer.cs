@@ -10,15 +10,15 @@
 namespace AplicacaoFaculdade.Views.Admin {
     
     
-    public partial class Pessoas {
+    public partial class NovaTurma {
         
         /// <summary>
-        /// Controle pessoaGridView.
+        /// Controle gridTeste.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView pessoaGridView;
+        protected global::System.Web.UI.WebControls.GridView gridTeste;
     }
 }

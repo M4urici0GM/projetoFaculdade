@@ -17,7 +17,7 @@ namespace AplicacaoFaculdade
             RegisterAPIRoutes(RouteTable.Routes); //Register API Routes
         }
 
-        private void RegisterRoutes(RouteCollection route){
+        private void RegisterRoutes(RouteCollection route) {
             route.MapPageRoute("home", "", "~/Views/User/Index.aspx"); //Default project route
             route.MapPageRoute("adminLogin", "admin/login", "~/Views/Admin/Login.aspx"); //Default project route
             route.MapPageRoute("adminHome", "admin", "~/Views/Admin/Index.aspx");
@@ -31,6 +31,8 @@ namespace AplicacaoFaculdade
             route.MapPageRoute("cargos", "admin/pessoas/cargos", "~/Views/Admin/Cargos.aspx");
             route.MapPageRoute("funcionarios", "admin/pessoas/funcionarios", "~/Views/Admin/Funcionarios.aspx");
             route.MapPageRoute("servicos", "admin/servicos", "~/Views/Admin/Servicos.aspx");
+            route.MapPageRoute("turmas", "admin/turmas", "~/Views/Admin/Turmas.aspx");
+            route.MapPageRoute("novaTurma", "admin/turmas/nova", "~/Views/Admin/NovaTurma.aspx");
         }
 
         private void RegisterAPIRoutes(RouteCollection routes) {
