@@ -1,10 +1,7 @@
 ﻿using AplicacaoFaculdade.Models;
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
+using AplicacaoFaculdade.Enums;
 
 namespace AplicacaoFaculdade.DatabaseContext {
     public class PessoaContext {
@@ -223,6 +220,23 @@ namespace AplicacaoFaculdade.DatabaseContext {
             return new Aluno();
         }
 
+        public DataTable GetAlunos(Turma turma) {
+            string query = @"
+                SELECT * FROM Alunos
+                INNER JOIN Pessoas 
+                    ON alunoFkPessoa = pessoaId
+                INNER JOIN TurmaAlunos
+                    ON alunoId = fkAluno
+                INNER JOIN Turmas
+                    ON fkTurma = turmaId
+                WHERE turmaId = @TurmaId";
+            mySqlCommand = new MySqlCommand(query, database);
+            mySqlCommand.Parameters.AddWithValue("@TurmaId", turma.Id);
+            mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            mySqlDataAdapter.Fill(LastSelection);
+            return LastSelection;
+        }
+
         public DataTable GetAlunos(bool ativos = true) {
             mySqlCommand = new MySqlCommand("SELECT * FROM Alunos INNER JOIN Pessoas ON alunoFkPessoa = pessoaId WHERE alunoStatus = @AlunoStatus AND pessoaId != 0", database);
             mySqlCommand.Parameters.AddWithValue("@AlunoStatus", ativos);
@@ -309,12 +323,41 @@ namespace AplicacaoFaculdade.DatabaseContext {
         }
 
         public DataTable GetFuncionarios(bool ativos = true) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Funcionarios INNER JOIN Pessoas ON funcionarioFkPessoa = pessoaId WHERE funcionarioStatus = @FuncionarioStatus AND pessoaId != 0", database);
+            string query = @"
+                SELECT * FROM Funcionarios
+                INNER JOIN Pessoas
+                    ON funcionarioFkPessoa = pessoaId
+                WHERE
+                    pessoaId != 0 AND funcionarioStatus = @FuncionarioStatus
+            ";
+            mySqlCommand = new MySqlCommand(query, database);
             mySqlCommand.Parameters.AddWithValue("@FuncionarioStatus", ativos);
             using (mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand)) {
                 mySqlDataAdapter.Fill(LastSelection);
             }
             return LastSelection;
+        }
+
+        public DataTable GetFuncionarios(NivelAcessoSistema nivelAcesso) {
+            DataTable returnDataTable = new DataTable();
+            string query = @"
+                SELECT * FROM Funcionarios 
+                    INNER JOIN Pessoas 
+                        ON funcionarioFkPessoa = pessoaId
+                    INNER JOIN Usuarios
+                        ON pessoaId = usuarioFkPessoa
+                    INNER JOIN NivelAcesso
+                        ON usuarioFkNivelAcesso = nivelAcessoId
+                    WHERE 
+                        funcionarioStatus = true
+                    AND pessoaId != 0  AND nivelAcessoId = @NivelAcesso AND usuarioStatus = true
+            ";
+            mySqlCommand = new MySqlCommand(query, database);
+            mySqlCommand.Parameters.AddWithValue("@NivelAcesso", nivelAcesso);
+            using (mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand)) {
+                mySqlDataAdapter.Fill(returnDataTable);
+            }
+            return returnDataTable;
         }
 
         public Funcionario GetFuncionario(Funcionario funcionario) {

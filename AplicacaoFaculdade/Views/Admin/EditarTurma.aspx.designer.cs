@@ -10,7 +10,7 @@
 namespace AplicacaoFaculdade.Views.Admin {
     
     
-    public partial class NovaTurma {
+    public partial class EditarTurma {
         
         /// <summary>
         /// turmaNome control.
@@ -92,5 +92,14 @@ namespace AplicacaoFaculdade.Views.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView horariosGridView;
+        
+        /// <summary>
+        /// alunosGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView alunosGridView;
     }
 }

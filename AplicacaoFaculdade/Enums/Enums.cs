@@ -27,6 +27,13 @@ namespace AplicacaoFaculdade.Enums {
         VALUE,
     }
 
+    public enum NivelAcessoSistema {
+        ADMIN = 6,
+        PROFESSOR = 7,
+        FUNCIONARIO = 4,
+        ALUNO = 5
+    }
+
 
 
 }

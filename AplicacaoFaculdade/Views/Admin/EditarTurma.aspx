@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/template/Admin.Master" AutoEventWireup="true" CodeBehind="NovaTurma.aspx.cs" Inherits="AplicacaoFaculdade.Views.Admin.NovaTurma" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/template/Admin.Master" AutoEventWireup="true" CodeBehind="EditarTurma.aspx.cs" Inherits="AplicacaoFaculdade.Views.Admin.EditarTurma" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="body" runat="server">
     <script type="text/javascript">
         window.onload = () => {
@@ -102,15 +102,41 @@
         <div class="row mt-3">
             <div class="col-12 table-responsive">
                 <asp:GridView runat="server" EmptyDataText="Adicione um horario clicando em 'adicionar'." ID="horariosGridView"
-                    AllowPaging="false" ShowHeaderWhenEmpty="true" OnRowCommand="OnRowCommandEventHandler"
+                    AllowPaging="false" ShowHeaderWhenEmpty="true" OnRowCommand="OnHorariosRowCommandEventHandler"
                     CssClass="table table-hover text-center border-0 mt-2 table-borderless" AutoGenerateColumns="false">
                     <Columns>
-                        <asp:BoundField HeaderText="Horario Início" DataFormatString="{0: HH:mm}" DataField="turmaHorarioInicio"/>
-                        <asp:BoundField HeaderText="Horario Saida" DataFormatString="{0: HH:mm}" DataField="turmaHorarioFim"/>
+                        <asp:BoundField HeaderText="Horario Início" DataFormatString="{0}" DataField="turmaHorarioInicio"/>
+                        <asp:BoundField HeaderText="Horario Saida" DataFormatString="{0}" DataField="turmaHorarioFim"/>
                         <asp:BoundField HeaderText="Dia" DataField="turmaHorarioDiaSemana"/>
                         <asp:TemplateField HeaderText="Ações">
                             <ItemTemplate>
                                 <asp:LinkButton runat="server" CssClass="btn btn-outline-danger" CommandName="excluirHorario">
+                                    <i class="fas fa-times"></i> Remover
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                </asp:GridView>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-12">
+                <h4><i class="fas fa-users"></i> Alunos</h4>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 table-responsive">
+                <asp:GridView runat="server" EmptyDataText="Essa turma ainda nao tem alunos." ID="alunosGridView"
+                    AllowPaging="false" ShowHeaderWhenEmpty="true" OnRowCommand="OnAlunosRowCommandEventHandler"
+                    CssClass="table table-hover text-center border-0 mt-2 table-borderless" AutoGenerateColumns="false">
+                    <Columns>
+                        <asp:BoundField HeaderText="Nome" DataField="pessoaNome"/>
+                        <asp:BoundField HeaderText="Telefone p/ Contato" DataField="pessoaTelefone"/>
+                        <asp:BoundField HeaderText="Celular p/ Contato" DataField="pessoaCelular"/>
+                        <asp:TemplateField HeaderText="Ações">
+                            <ItemTemplate>
+                                <asp:LinkButton runat="server" CssClass="btn btn-outline-danger" CommandName="removerAluno">
                                     <i class="fas fa-times"></i> Remover
                                 </asp:LinkButton>
                             </ItemTemplate>
@@ -131,7 +157,7 @@
                             </a>
                         </div>
                         <div class="col-12 col-sm-12 col-md-6">
-                           <asp:LinkButton runat="server" OnClick="CadastrarTurmaClickEventHandler" CssClass="btn btn-outline-primary btn-block">
+                           <asp:LinkButton runat="server" OnClick="EditarTurmaClickEventHandler" CssClass="btn btn-outline-primary btn-block">
                                <i class="fas fa-check-square"></i> Salvar
                            </asp:LinkButton>
                         </div>

@@ -14,7 +14,7 @@
         <hr />
         <div class="row">
             <div class="table-responsive">
-                <asp:GridView ID="turmasGridView" runat="server"  ShowHeaderWhenEmpty="true" EmptyDataText="Sem registros no sistema!" AutoGenerateColumns="false" DataKeyNames="pessoaId" OnRowCommand="OnRowCommandEventHandler" 
+                <asp:GridView ID="turmasGridView" runat="server"  ShowHeaderWhenEmpty="true" EmptyDataText="Sem registros no sistema!" AutoGenerateColumns="false" DataKeyNames="turmaId" OnRowCommand="OnRowCommandEventHandler" 
                     CssClass="table table-borderless table-hover text-center border-0" AllowPaging="true" OnPageIndexChanging="OnPageChangingIndex" PagerStyle-CssClass="pagination-ys">
                     <Columns>
                         <asp:BoundField DataField="turmaNome" HeaderStyle-CssClass="text-center"  HeaderText="Nome"/>
@@ -23,17 +23,24 @@
                         <asp:BoundField DataField="servicoNome" HeaderStyle-CssClass="text-center"  HeaderText="Serviço"/>
                         <asp:TemplateField HeaderText="Dias/Horarios">
                             <ItemTemplate>
-                                <asp:LinkButton ID="editButton" runat="server" CommandName="editarPessoa" CssClass="btn btn-outline-primary">
+                                <asp:LinkButton ID="verificarHorarios" runat="server" CommandName="verificarHorarios" CssClass="btn btn-outline-primary">
+                                    <i class="fas fa-eye"></i> Verificar
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Alunos">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="verificarAlunos" runat="server" CommandName="verificarTurma" CssClass="btn btn-outline-primary">
                                     <i class="fas fa-eye"></i> Verificar
                                 </asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Ações" HeaderStyle-CssClass="text-center" >
                             <ItemTemplate>
-                                <asp:LinkButton ID="editButton" runat="server" CommandName="editarPessoa" CssClass="btn btn-outline-primary">
+                                <asp:LinkButton ID="editarTurma" runat="server" CommandName="editarTurma" CssClass="btn btn-outline-primary">
                                     <i class="fas fa-user-cog"></i> Editar
                                 </asp:LinkButton>
-                                <asp:LinkButton ID="delButton" runat="server" CommandName="excluirPessoa" OnClientClick="return confirmDelete(this)"  CssClass="btn btn-outline-danger btnExcluirPessoa">
+                                <asp:LinkButton ID="excluirTurma" runat="server" CommandName="excluirTurma" OnClientClick="return confirmDelete(this)"  CssClass="btn btn-outline-danger btnExcluirPessoa">
                                     <i class="fas fa-user-minus"></i> Excluir
                                 </asp:LinkButton>
                             </ItemTemplate>

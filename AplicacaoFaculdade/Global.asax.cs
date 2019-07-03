@@ -33,6 +33,7 @@ namespace AplicacaoFaculdade
             route.MapPageRoute("servicos", "admin/servicos", "~/Views/Admin/Servicos.aspx");
             route.MapPageRoute("turmas", "admin/turmas", "~/Views/Admin/Turmas.aspx");
             route.MapPageRoute("novaTurma", "admin/turmas/nova", "~/Views/Admin/NovaTurma.aspx");
+            route.MapPageRoute("editarTurma", "admin/turmas/editar/{turmaId}", "~/Views/Admin/EditarTurma.aspx");
         }
 
         private void RegisterAPIRoutes(RouteCollection routes) {

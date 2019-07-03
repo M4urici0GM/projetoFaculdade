@@ -120,23 +120,6 @@ namespace AplicacaoFaculdade.DatabaseContext {
             return AffectedRows > 0;
         }
 
-        public DataTable GetTurmas(bool ativas = true) {
-            DataTable datatable = new DataTable();
-            string query = @"
-                SELECT * FROM Turmas 
-                INNER JOIN FuncionarioTurmas 
-                    ON turmaId = fkTurma
-                INNER JOIN Funcionarios
-                    ON fkFuncionario = funcionarioId
-                INNER JOIN Servicos
-                    ON turmaServico = servicoId
-                WHERE   
-                    turmaStatus = @TurmaStatus";
-            mySqlCommand = new MySqlCommand(query, databaseConnection);
-            mySqlCommand.Parameters.AddWithValue("@TurmaStatus", ativas);
-            mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
-            mySqlDataAdapter.Fill(datatable);
-            return datatable;
-        }
+        
     }
 }

@@ -94,6 +94,7 @@
     <Content Include="Views\Admin\CadastrarUsuario.aspx" />
     <Content Include="Views\Admin\Cargos.aspx" />
     <Content Include="Views\Admin\EditarPessoa.aspx" />
+    <Content Include="Views\Admin\EditarTurma.aspx" />
     <Content Include="Views\Admin\EditarUsuario.aspx" />
     <Content Include="Views\Admin\Funcionarios.aspx" />
     <Content Include="Views\Admin\Index.aspx" />
@@ -110,6 +111,7 @@
     <Compile Include="DatabaseContext\FinanceiroContext.cs" />
     <Compile Include="DatabaseContext\LogContext.cs" />
     <Compile Include="DatabaseContext\ServicoContext.cs" />
+    <Compile Include="DatabaseContext\TurmaContext.cs" />
     <Compile Include="DatabaseContext\UsuarioContext.cs" />
     <Compile Include="Database\Database.cs" />
     <Compile Include="Enums\Enums.cs" />
@@ -120,6 +122,7 @@
     <Compile Include="Models\Endereco.cs" />
     <Compile Include="Models\Funcionario.cs" />
     <Compile Include="Models\Pessoa.cs" />
+    <Compile Include="Models\Turma.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -160,6 +163,13 @@
     </Compile>
     <Compile Include="Views\Admin\EditarPessoa.aspx.designer.cs">
       <DependentUpon>EditarPessoa.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\EditarTurma.aspx.cs">
+      <DependentUpon>EditarTurma.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Admin\EditarTurma.aspx.designer.cs">
+      <DependentUpon>EditarTurma.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\Admin\EditarUsuario.aspx.cs">
       <DependentUpon>EditarUsuario.aspx</DependentUpon>
