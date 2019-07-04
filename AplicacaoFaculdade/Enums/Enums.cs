@@ -10,9 +10,9 @@ namespace AplicacaoFaculdade.Enums {
     }
 
     public enum MovimentoOrigem {
-        PAGAMENTOS,
-        RECEBIMENTOS,
-        SERVICOS,
+        MENSALIDADES,
+        CAIXA,
+        SERVICOS
     }
 
     public enum Order {

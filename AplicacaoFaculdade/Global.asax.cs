@@ -31,9 +31,6 @@ namespace AplicacaoFaculdade
             route.MapPageRoute("cargos", "admin/pessoas/cargos", "~/Views/Admin/Cargos.aspx");
             route.MapPageRoute("funcionarios", "admin/pessoas/funcionarios", "~/Views/Admin/Funcionarios.aspx");
             route.MapPageRoute("servicos", "admin/servicos", "~/Views/Admin/Servicos.aspx");
-            route.MapPageRoute("turmas", "admin/turmas", "~/Views/Admin/Turmas.aspx");
-            route.MapPageRoute("novaTurma", "admin/turmas/nova", "~/Views/Admin/NovaTurma.aspx");
-            route.MapPageRoute("editarTurma", "admin/turmas/editar/{turmaId}", "~/Views/Admin/EditarTurma.aspx");
             route.MapPageRoute("contratos", "admin/servicos/contratos", "~/Views/Admin/Contratos.aspx");
             route.MapPageRoute("novoContrato", "admin/servicos/contratos/novo", "~/Views/Admin/NovoContratos.aspx");
             route.MapPageRoute("contas", "admin/financeiro/contas", "~/Views/Admin/Contas.aspx");

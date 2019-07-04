@@ -87,6 +87,7 @@
   <ItemGroup>
     <Content Include="Cdn\bootbox.all.min.js" />
     <Content Include="Cdn\MainStyle.css" />
+    <Content Include="Cdn\pt-br.js" />
     <Content Include="Cdn\Utils.js" />
     <Content Include="Global.asax" />
     <Content Include="Views\Admin\Alunos.aspx" />

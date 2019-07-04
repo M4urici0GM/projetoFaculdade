@@ -1,7 +1,12 @@
 ﻿const xhttp = new XMLHttpRequest();
 window.onload = () => {
     $('#datetimepicker4').datetimepicker({
-        format: 'L'
+        format: 'L',
+        locale: 'br'
+    });
+    $('#datetimepicker5').datetimepicker({
+        format: 'L',
+        locale: 'br'
     });
     
     $('#adicionarUsuarioBtn').on('click', () => {

@@ -22,7 +22,9 @@
     <script src="https://momentjs.com/downloads/moment.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+    <script src="/Cdn/pt-br.js"></script>
     <script type="text/javascript" src="/Cdn/Utils.js"></script>
+
 </head>
 <body>
     <form id="form1" runat="server">
@@ -51,9 +53,9 @@
                                     <a href="/admin/servicos/contratos" class="dropdown-item d-flex justify-content-between align-items-center">
                                         <i class="fas fa-file-contract"></i> Contratos
                                     </a>
-                                    <a href="/admin/turmas" class="dropdown-item d-flex justify-content-between align-items-center">
+                                   <%-- <a href="/admin/turmas" class="dropdown-item d-flex justify-content-between align-items-center">
                                         <i class="fas fa-users"></i> Turmas
-                                    </a>
+                                    </a>--%>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">

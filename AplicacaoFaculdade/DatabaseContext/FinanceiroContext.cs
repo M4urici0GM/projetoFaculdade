@@ -28,8 +28,68 @@ namespace AplicacaoFaculdade.DatabaseContext {
 
 
         public DataTable GetMovimentos() {
+            DataTable dataTable = new DataTable();
+            string query = @"
+            SELECT 
+                movimentoId, movimentoTipo, movimentoOrigem, 
+                movimentoValor, movimentoMulta, movimentoPago, 
+                contaId, contaNome, Query1.pessoaNome as Favorecido, 
+                p.pessoaNome as Movimentador, movimentoDataEmissao, 
+                movimentoDatapagamento, contratoId as contratoNumero 
+            FROM 
+                (SELECT * FROM Movimentacoes movimento
+                INNER JOIN Contas
+	                ON movimentoFkConta = contaId
+                INNER JOIN Usuarios
+	                ON movimentoFkUsuario = usuarioId
+                INNER JOIN Pessoas
+	                ON movimentoFkPessoa = pessoaId) as Query1
+            INNER JOIN Pessoas p
+                ON usuarioFkPessoa = p.pessoaId
+            LEFT JOIN Contratos
+                ON movimentoFkContrato = contratoId";
+            mySqlCommand = new MySqlCommand(query, databaseConnection);
+            mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            mySqlDataAdapter.Fill(dataTable);
+            return dataTable;
+        }
 
-            return new DataTable();
+        public DataTable GetMovimentos(DateTime dataInicial, DateTime dataFinal, int movimentoOrigem, int movimentoTipo, int movimentoStatus) {
+            DataTable dataTable = new DataTable();
+            string query = $@"
+            SELECT 
+                movimentoId, movimentoTipo, movimentoOrigem, 
+                movimentoValor, movimentoMulta, movimentoPago, 
+                contaId, contaNome, Query1.pessoaNome as Favorecido, 
+                p.pessoaNome as Movimentador, movimentoDataEmissao, 
+                movimentoDataPagamento, contratoId as contratoNumero 
+            FROM 
+                (SELECT * FROM Movimentacoes movimento
+                INNER JOIN Contas
+	                ON movimentoFkConta = contaId
+                INNER JOIN Usuarios
+	                ON movimentoFkUsuario = usuarioId
+                INNER JOIN Pessoas
+	                ON movimentoFkPessoa = pessoaId) as Query1
+            INNER JOIN Pessoas p
+                ON usuarioFkPessoa = p.pessoaId
+            LEFT JOIN Contratos
+                ON movimentoFkContrato = contratoId
+            WHERE 
+                (movimentoDataEmissao >= @DataInicial AND movimentoDataEmissao <= @DataFinal)
+                AND
+                    movimentoOrigem = @MovimentoOrigem
+                AND
+                    movimentoTipo = @MovimentoTipo
+                AND {(movimentoStatus == 1 ? "movimentoDataPagamento IS NOT NULL" : "movimentoDataPagamento IS NULL")}";
+            mySqlCommand = new MySqlCommand(query, databaseConnection);
+            mySqlCommand.Parameters.AddWithValue("@DataInicial", dataInicial.ToString("yyyy-mm-dd"));
+            mySqlCommand.Parameters.AddWithValue("@DataFinal", dataFinal.ToString("yyyy-mm-dd"));
+            mySqlCommand.Parameters.AddWithValue("@MovimentoOrigem", movimentoOrigem.ToString());
+            mySqlCommand.Parameters.AddWithValue("@MovimentoTipo", movimentoTipo.ToString());
+            mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            mySqlDataAdapter.Fill(dataTable);
+            return dataTable;
         }
 
 
