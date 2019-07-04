@@ -13,6 +13,15 @@ namespace AplicacaoFaculdade.Views.Admin {
     public partial class EditarTurma {
         
         /// <summary>
+        /// pesquisaAlunoId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox pesquisaAlunoId;
+        
+        /// <summary>
         /// turmaNome control.
         /// </summary>
         /// <remarks>
@@ -92,6 +101,33 @@ namespace AplicacaoFaculdade.Views.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView horariosGridView;
+        
+        /// <summary>
+        /// pessoaPesquisaDocumento control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox pessoaPesquisaDocumento;
+        
+        /// <summary>
+        /// pessoaNome control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox pessoaNome;
+        
+        /// <summary>
+        /// btnAdicionarAluno control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnAdicionarAluno;
         
         /// <summary>
         /// alunosGridView control.

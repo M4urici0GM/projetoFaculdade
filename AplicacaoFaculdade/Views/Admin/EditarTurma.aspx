@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/template/Admin.Master" AutoEventWireup="true" CodeBehind="EditarTurma.aspx.cs" Inherits="AplicacaoFaculdade.Views.Admin.EditarTurma" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="body" runat="server">
+    <asp:TextBox runat="server" ID="pesquisaAlunoId" Visible="false"></asp:TextBox>
     <script type="text/javascript">
         window.onload = () => {
             $('#dateTimePickerHorario1').datetimepicker({
@@ -102,7 +103,7 @@
         <div class="row mt-3">
             <div class="col-12 table-responsive">
                 <asp:GridView runat="server" EmptyDataText="Adicione um horario clicando em 'adicionar'." ID="horariosGridView"
-                    AllowPaging="false" ShowHeaderWhenEmpty="true" OnRowCommand="OnHorariosRowCommandEventHandler"
+                    AllowPaging="false" ShowHeaderWhenEmpty="true"  DataKeyNames="turmaHorarioId" OnRowCommand="OnHorariosRowCommandEventHandler"
                     CssClass="table table-hover text-center border-0 mt-2 table-borderless" AutoGenerateColumns="false">
                     <Columns>
                         <asp:BoundField HeaderText="Horario Início" DataFormatString="{0}" DataField="turmaHorarioInicio"/>
@@ -110,7 +111,7 @@
                         <asp:BoundField HeaderText="Dia" DataField="turmaHorarioDiaSemana"/>
                         <asp:TemplateField HeaderText="Ações">
                             <ItemTemplate>
-                                <asp:LinkButton runat="server" CssClass="btn btn-outline-danger" CommandName="excluirHorario">
+                                <asp:LinkButton runat="server" CssClass="btn btn-outline-danger" CommandName="excluirHorario" OnClientClick="return confirmDelete(this)">
                                     <i class="fas fa-times"></i> Remover
                                 </asp:LinkButton>
                             </ItemTemplate>
@@ -124,11 +125,37 @@
             <div class="col-12">
                 <h4><i class="fas fa-users"></i> Alunos</h4>
             </div>
+            <div class="col-12 mt-2">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-5">
+                        <div class="input-group">
+                            <asp:TextBox CssClass="form-control" runat="server" ID="pessoaPesquisaDocumento" placeholder="Documento (RG / CPF)"/>
+                            <div class="input-group-append">
+                                <asp:LinkButton runat="server" OnClick="OnPesquisarPessoaClickEventHandler" CssClass="btn btn-outline-primary">
+                                    <i class="fas fa-search"></i>
+                                </asp:LinkButton>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <small class="text-muted">Digite o documento da pessoa que deseja pesquisar e clique na lupa</small>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-5 text-center">
+                        <asp:TextBox CssClass="form-control" runat="server" ID="pessoaNome" placeholder="Nome da pessoa pesquisada" Enabled="false"/>
+                        <small class="text-muted">O nome da pessoa pesquisada aparecera aqui</small>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-2">
+                        <asp:LinkButton runat="server" ID="btnAdicionarAluno" OnClick="AdicionarAlunoClickEventHandler" CssClass="btn btn-outline-dark">
+                            <i class="fas fa-user-plus"></i> Adicionar
+                        </asp:LinkButton>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row mt-3">
             <div class="col-12 table-responsive">
                 <asp:GridView runat="server" EmptyDataText="Essa turma ainda nao tem alunos." ID="alunosGridView"
-                    AllowPaging="false" ShowHeaderWhenEmpty="true" OnRowCommand="OnAlunosRowCommandEventHandler"
+                    AllowPaging="false" ShowHeaderWhenEmpty="true" DataKeyNames="alunoId" OnRowCommand="OnAlunosRowCommandEventHandler"
                     CssClass="table table-hover text-center border-0 mt-2 table-borderless" AutoGenerateColumns="false">
                     <Columns>
                         <asp:BoundField HeaderText="Nome" DataField="pessoaNome"/>
@@ -136,7 +163,7 @@
                         <asp:BoundField HeaderText="Celular p/ Contato" DataField="pessoaCelular"/>
                         <asp:TemplateField HeaderText="Ações">
                             <ItemTemplate>
-                                <asp:LinkButton runat="server" CssClass="btn btn-outline-danger" CommandName="removerAluno">
+                                <asp:LinkButton runat="server" CssClass="btn btn-outline-danger" CommandName="removerAluno" OnClientClick="return confirmDelete(this)">
                                     <i class="fas fa-times"></i> Remover
                                 </asp:LinkButton>
                             </ItemTemplate>

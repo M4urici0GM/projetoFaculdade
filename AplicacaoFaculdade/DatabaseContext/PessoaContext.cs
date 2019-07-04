@@ -263,6 +263,94 @@ namespace AplicacaoFaculdade.DatabaseContext {
             return new Aluno();
         }
 
+        public Aluno GetAluno(long documentoNumero) {
+            string query = @"
+                SELECT * FROM Pessoas
+                INNER JOIN Alunos
+                    ON pessoaId = alunoFkPessoa
+                WHERE
+                    (pessoaRg = @Documento OR pessoaCpf = @Documento OR pessoaCnpj = @Documento) 
+                AND alunoStatus = true 
+                AND pessoaId != 0 
+                AND pessoaStatus = true
+            ";
+            mySqlCommand = new MySqlCommand(query, database);
+            mySqlCommand.Parameters.AddWithValue("@Documento", documentoNumero);
+            mySqlDataReader = mySqlCommand.ExecuteReader();
+            if (mySqlDataReader.HasRows && mySqlDataReader.Read()) {
+                return new Aluno() {
+                    FkPessoa = mySqlDataReader.GetInt32(0),
+                    Nome = mySqlDataReader.GetString(1),
+                    Sobrenome = mySqlDataReader.GetString(2),
+                    PessoaStatus = mySqlDataReader.GetBoolean(3),
+                    Sexo = mySqlDataReader.GetInt32(4),
+                    Nascimento = mySqlDataReader.GetDateTime(5),
+                    Telefone = mySqlDataReader.IsDBNull(6) ? (long?)null : mySqlDataReader.GetInt64(6),
+                    Celular = mySqlDataReader.IsDBNull(7) ? (long?)null : mySqlDataReader.GetInt64(7),
+                    Cnpj = mySqlDataReader.IsDBNull(8) ? (long?)null : mySqlDataReader.GetInt64(8),
+                    Cpf = mySqlDataReader.GetInt64(9),
+                    Rg = mySqlDataReader.IsDBNull(10) ? (long?)null : mySqlDataReader.GetInt64(10),
+                    Endereco = mySqlDataReader.GetString(11),
+                    Cep = mySqlDataReader.GetInt32(12),
+                    Numero = mySqlDataReader.GetInt32(13),
+                    Complemento = mySqlDataReader.IsDBNull(14) ? null : mySqlDataReader.GetString(11),
+                    Cidade = mySqlDataReader.GetString(15),
+                    Estado = mySqlDataReader.GetString(16),
+                    Id = mySqlDataReader.GetInt32(17),
+                    Status = mySqlDataReader.GetBoolean(19)
+                };
+            }
+            return new Aluno();
+        }
+        public Aluno GetAluno(long documentoNumero, Turma turma) {
+            string query = @"
+                SELECT * FROM Pessoas
+                INNER JOIN Alunos
+                    ON pessoaId = alunoFkPessoa
+                INNER JOIN TurmaAlunos
+                    ON alunoId = fkAluno
+                INNER JOIN Turmas
+                    ON fkTurma = turmaId
+                WHERE
+                    (pessoaRg = @Documento OR pessoaCpf = @Documento OR pessoaCnpj = @Documento) 
+                AND alunoStatus = true 
+                AND pessoaId != 0 
+                AND pessoaStatus = true
+                AND turmaId = @TurmaId
+                AND turmaStatus = true
+            ";
+            mySqlCommand = new MySqlCommand(query, database);
+            mySqlCommand.Parameters.AddWithValue("@Documento", documentoNumero);
+            mySqlCommand.Parameters.AddWithValue("@TurmaId", turma.Id);
+            mySqlDataReader = mySqlCommand.ExecuteReader();
+            if (mySqlDataReader.HasRows && mySqlDataReader.Read()) {
+                Aluno aluno = new Aluno() {
+                    FkPessoa = mySqlDataReader.GetInt32(0),
+                    Nome = mySqlDataReader.GetString(1),
+                    Sobrenome = mySqlDataReader.GetString(2),
+                    PessoaStatus = mySqlDataReader.GetBoolean(3),
+                    Sexo = mySqlDataReader.GetInt32(4),
+                    Nascimento = mySqlDataReader.GetDateTime(5),
+                    Telefone = mySqlDataReader.IsDBNull(6) ? (long?)null : mySqlDataReader.GetInt64(6),
+                    Celular = mySqlDataReader.IsDBNull(7) ? (long?)null : mySqlDataReader.GetInt64(7),
+                    Cnpj = mySqlDataReader.IsDBNull(8) ? (long?)null : mySqlDataReader.GetInt64(8),
+                    Cpf = mySqlDataReader.GetInt64(9),
+                    Rg = mySqlDataReader.IsDBNull(10) ? (long?)null : mySqlDataReader.GetInt64(10),
+                    Endereco = mySqlDataReader.GetString(11),
+                    Cep = mySqlDataReader.GetInt32(12),
+                    Numero = mySqlDataReader.GetInt32(13),
+                    Complemento = mySqlDataReader.IsDBNull(14) ? null : mySqlDataReader.GetString(11),
+                    Cidade = mySqlDataReader.GetString(15),
+                    Estado = mySqlDataReader.GetString(16),
+                    Id = mySqlDataReader.GetInt32(17),
+                    Status = mySqlDataReader.GetBoolean(19)
+                };
+                mySqlDataReader.Close();
+                return aluno;
+            }
+            return new Aluno();
+        }
+
         public int CreateAluno(Pessoa pessoa) {
             string query = "SELECT * FROM Alunos WHERE alunoFkPessoa = @FkPessoa AND alunoStatus = true";
             mySqlCommand = new MySqlCommand(query, database);

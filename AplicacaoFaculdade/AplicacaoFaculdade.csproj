@@ -123,6 +123,7 @@
     <Compile Include="Models\Funcionario.cs" />
     <Compile Include="Models\Pessoa.cs" />
     <Compile Include="Models\Turma.cs" />
+    <Compile Include="Models\TurmaHorario.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
