@@ -27,110 +27,69 @@ namespace AplicacaoFaculdade.DatabaseContext {
         }
 
 
-        public DataTable GetMovimentos(bool ativos = true, int limit = 10, Order order = Order.ASC) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Movimentacoes INNER JOIN Usuarios ON movimentoFkUsuario = usuarioId WHERE movimentoStatus = @MovimentoStatus ORDER BY @Order LIMIT @Limit", databaseConnection);
-            mySqlCommand.Parameters.AddWithValue("@MovimentoStatus", ativos);
-            mySqlCommand.Parameters.AddWithValue("@Order", order);
-            mySqlCommand.Parameters.AddWithValue("@Limit", limit);
-            using (mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand)) {
-                mySqlDataAdapter.Fill(LastSelection);
-            }
-            return LastSelection;
+        public DataTable GetMovimentos() {
+
+            return new DataTable();
         }
 
-        public DataTable GetMovimentos(Usuario usuario, int limit = 10, Order order = Order.ASC) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Movimentacoes INNER JOIN Usuarios ON movimentoFkUsuario = usuarioId WHERE usuarioId = @UsuarioId ORDER BY @Order LIMIT @Limit", databaseConnection);
-            mySqlCommand.Parameters.AddWithValue("@UsuarioId", usuario.Id.Value);
-            mySqlCommand.Parameters.AddWithValue("@Order", order);
-            mySqlCommand.Parameters.AddWithValue("@Limit", limit);
-            using (mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand)) {
-                mySqlDataAdapter.Fill(LastSelection);
-            }
-            return LastSelection;
-        }
 
-        public DataTable GetMovimentos(Usuario usuario, Pessoa pessoa, int limit = 10, Order order = Order.ASC) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Movimentacoes INNER JOIN Usuarios ON movimentoFkUsuario = usuarioId INNER JOIN Pessoas ON movimentoFkPessoa = pessoaId  WHERE usuarioId = @UsuarioId AND pessoaId = @PessoaId ORDER BY @Order LIMIT @Limit", databaseConnection);
-            mySqlCommand.Parameters.AddWithValue("@UsuarioId", usuario.Id.Value);
-            mySqlCommand.Parameters.AddWithValue("@PessoaId", pessoa.Id.Value);
-            mySqlCommand.Parameters.AddWithValue("@Order", order);
-            mySqlCommand.Parameters.AddWithValue("@Limit", limit);
-            using (mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand)) {
-                mySqlDataAdapter.Fill(LastSelection);
-            }
-            return LastSelection;
-        }
-
-        public DataTable GetMovimentos(DateTime inicio, DateTime final, int limit = 10, Order order = Order.ASC) {
-            mySqlCommand = new MySqlCommand("SELECT * FROM Movimentacoes INNER JOIN Usuarios ON movimentoFkUsuario = usuarioId INNER JOIN Pessoas ON movimentoFkPessoa = pessoaId  WHERE movimentoDataEmissao BETWEEN @DataInicial AND @DataFinal ORDER BY movimentoDataEmissao @Order", databaseConnection);
-            mySqlCommand.Parameters.AddWithValue("@DataInicial", inicio);
-            mySqlCommand.Parameters.AddWithValue("@DataFinal", final);
-            mySqlCommand.Parameters.AddWithValue("@Order", order);
-            mySqlCommand.Parameters.AddWithValue("@Limit", limit);
-            using (mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand)) {
-                mySqlDataAdapter.Fill(LastSelection);
-            }
-            return LastSelection;
-        }
-
-        public DataTable GetMovimentos(Usuario usuario, Pessoa pessoa, DateTime inicio, DateTime fim, int limit = 10, Order order = Order.ASC) {
-
-            string query = @"SELECT * FROM Movimentacoes 
-                             INNER JOIN 
-                                Usuarios ON movimentoFkUsuario = usuarioId 
-                             INNER JOIN 
-                                Pessoas ON movimentoFkPessoa = pessoaId 
-                             WHERE 
-                                pessoaId = @PessoaId AND usuarioId = @UsuarioId 
-                             AND 
-                                movimentoDataEmissao 
-                                    BETWEEN 
-                                        @DataInicio 
-                                    AND 
-                                        @DataFinal
-                             ORDER BY @Order
-                             LIMIT @Limit";
-
+        public DataTable GetContas(bool ativos = true) {
+            DataTable dataTable = new DataTable();
+            string query = @"
+                SELECT * FROM Contas
+                WHERE contaStatus = @ContaStatus";
             mySqlCommand = new MySqlCommand(query, databaseConnection);
-            mySqlCommand.Parameters.AddWithValue("@UsuarioId", usuario.Id.Value);
-            mySqlCommand.Parameters.AddWithValue("@PessoaId", pessoa.Id.Value);
-            mySqlCommand.Parameters.AddWithValue("@DataInicio", inicio);
-            mySqlCommand.Parameters.AddWithValue("@DataFinal", fim);
-            mySqlCommand.Parameters.AddWithValue("@Order", order);
-            mySqlCommand.Parameters.AddWithValue("@Limit", limit);
-            using (mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand)) {
-                mySqlDataAdapter.Fill(LastSelection);
-            }
-            return LastSelection;
+            mySqlCommand.Parameters.AddWithValue("@ContaStatus", ativos);
+            mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            mySqlDataAdapter.Fill(dataTable);
+            return dataTable;
         }
 
-        public Movimento GetMovimentos(Movimento movimento) {
-            string query = @"SELECT * FROM Movimentacoes 
-                            INNER JOIN 
-                                Usuarios ON movimentoFkUsuario = usuarioId
-                            INNER JOIN
-                                Pessoas ON movimentoFkPessoa = pessoaId
-                            WHERE
-                                movimentoId = @MovimentoId";
+        public bool CreateConta(Conta conta) {
+            string query = @"
+                INSERT INTO Contas() VALUES(null, @ContaNome, @ContaSaldo, true);
+            ";
             mySqlCommand = new MySqlCommand(query, databaseConnection);
-            mySqlCommand.Parameters.AddWithValue("@MovimentoId", movimento.Id.Value);
-            using (mySqlDataReader = mySqlCommand.ExecuteReader()) {
-                if (mySqlDataReader.HasRows && mySqlDataReader.Read()) {
-                    return new Movimento() {
-                        Id = mySqlDataReader.GetInt32(0),
-                        DataEmissao = mySqlDataReader.GetDateTime(7),
-                        DataPagamento = mySqlDataReader.GetDateTime(8),
-                        FkConta = mySqlDataReader.GetInt32(4),
-                        FkPessoa = mySqlDataReader.GetInt32(6),
-                        FkUsuario = mySqlDataReader.GetInt32(5),
-                        Origem = mySqlDataReader.GetString(2),
-                        Status = mySqlDataReader.GetBoolean(9),
-                        Tipo = mySqlDataReader.GetString(1),
-                        Valor = mySqlDataReader.GetFloat(3)
-                    };
-                }
+            mySqlCommand.Parameters.AddWithValue("@ContaNome", conta.Nome);
+            mySqlCommand.Parameters.AddWithValue("@ContaSaldo", conta.Saldo);
+            AffectedRows = mySqlCommand.ExecuteNonQuery();
+            return AffectedRows > 0;
+        }
+
+        public bool UpdateConta(Conta conta) {
+            string query = @"
+                UPDATE Contas 
+                SET
+                    contaNome = @ContaNome, contaSaldo = @ContaSaldo, contaStatus = @ContaStatus
+                WHERE
+                    contaId = @ContaId";
+            mySqlCommand = new MySqlCommand(query, databaseConnection);
+            mySqlCommand.Parameters.AddWithValue("@ContaNome", conta.Nome);
+            mySqlCommand.Parameters.AddWithValue("@ContaSaldo", conta.Saldo);
+            mySqlCommand.Parameters.AddWithValue("@ContaStatus", conta.Status);
+            mySqlCommand.Parameters.AddWithValue("@ContaId", conta.Id);
+            AffectedRows = mySqlCommand.ExecuteNonQuery();
+            return AffectedRows > 0;
+        }
+
+        public Conta GetContas(Conta conta) {
+            string query = @"
+                SELECT * FROM Contas WHERE contaId = @ContaId
+            ";
+            mySqlCommand = new MySqlCommand(query, databaseConnection);
+            mySqlCommand.Parameters.AddWithValue("@ContaId", conta.Id);
+            mySqlDataReader = mySqlCommand.ExecuteReader();
+            if (mySqlDataReader.HasRows && mySqlDataReader.Read()) {
+                Conta _conta = new Conta() {
+                    Id = mySqlDataReader.GetInt32(0),
+                    Nome = mySqlDataReader.GetString(1),
+                    Saldo = mySqlDataReader.GetFloat(2),
+                    Status = mySqlDataReader.GetBoolean(3)
+                };
+                mySqlDataReader.Close();
+                return _conta;
             }
-            return new Movimento();
+            return new Conta();
         }
     }
 }

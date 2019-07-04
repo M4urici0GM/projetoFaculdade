@@ -18,7 +18,7 @@ namespace AplicacaoFaculdade
         }
 
         private void RegisterRoutes(RouteCollection route) {
-            route.MapPageRoute("home", "", "~/Views/User/Index.aspx"); //Default project route
+            route.MapPageRoute("home", "", "~/Views/Admin/Index.aspx"); //Default project route
             route.MapPageRoute("adminLogin", "admin/login", "~/Views/Admin/Login.aspx"); //Default project route
             route.MapPageRoute("adminHome", "admin", "~/Views/Admin/Index.aspx");
             route.MapPageRoute("usuarios", "admin/usuarios", "~/Views/Admin/Usuarios.aspx");
@@ -34,8 +34,10 @@ namespace AplicacaoFaculdade
             route.MapPageRoute("turmas", "admin/turmas", "~/Views/Admin/Turmas.aspx");
             route.MapPageRoute("novaTurma", "admin/turmas/nova", "~/Views/Admin/NovaTurma.aspx");
             route.MapPageRoute("editarTurma", "admin/turmas/editar/{turmaId}", "~/Views/Admin/EditarTurma.aspx");
-            route.MapPageRoute("contratos", "admin/servicos/contratos", "~/Admin/Views/Contratos.aspx");
-            route.MapPageRoute("contratos", "admin/servicos/contratos/novo", "~/Admin/Views/NovoContratos.aspx");
+            route.MapPageRoute("contratos", "admin/servicos/contratos", "~/Views/Admin/Contratos.aspx");
+            route.MapPageRoute("novoContrato", "admin/servicos/contratos/novo", "~/Views/Admin/NovoContratos.aspx");
+            route.MapPageRoute("contas", "admin/financeiro/contas", "~/Views/Admin/Contas.aspx");
+            route.MapPageRoute("movimentoFinanceiro", "admin/financeiro/movimento", "~/Views/Admin/MovimentoFinanceiro.aspx");
         }
 
         private void RegisterAPIRoutes(RouteCollection routes) {

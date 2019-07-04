@@ -93,13 +93,17 @@
     <Content Include="Views\Admin\CadastrarPessoa.aspx" />
     <Content Include="Views\Admin\CadastrarUsuario.aspx" />
     <Content Include="Views\Admin\Cargos.aspx" />
+    <Content Include="Views\Admin\Contas.aspx" />
+    <Content Include="Views\Admin\Contratos.aspx" />
     <Content Include="Views\Admin\EditarPessoa.aspx" />
     <Content Include="Views\Admin\EditarTurma.aspx" />
     <Content Include="Views\Admin\EditarUsuario.aspx" />
     <Content Include="Views\Admin\Funcionarios.aspx" />
     <Content Include="Views\Admin\Index.aspx" />
     <Content Include="Views\Admin\Login.aspx" />
+    <Content Include="Views\Admin\MovimentoFinanceiro.aspx" />
     <Content Include="Views\Admin\NovaTurma.aspx" />
+    <Content Include="Views\Admin\NovoContratos.aspx" />
     <Content Include="Views\Admin\Pessoas.aspx" />
     <Content Include="Views\Admin\Servicos.aspx" />
     <Content Include="Views\Admin\Turmas.aspx" />
@@ -158,6 +162,20 @@
     <Compile Include="Views\Admin\Cargos.aspx.designer.cs">
       <DependentUpon>Cargos.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Views\Admin\Contas.aspx.cs">
+      <DependentUpon>Contas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Admin\Contas.aspx.designer.cs">
+      <DependentUpon>Contas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\Contratos.aspx.cs">
+      <DependentUpon>Contratos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Admin\Contratos.aspx.designer.cs">
+      <DependentUpon>Contratos.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Admin\EditarPessoa.aspx.cs">
       <DependentUpon>EditarPessoa.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -200,12 +218,26 @@
     <Compile Include="Views\Admin\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Views\Admin\MovimentoFinanceiro.aspx.cs">
+      <DependentUpon>MovimentoFinanceiro.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Admin\MovimentoFinanceiro.aspx.designer.cs">
+      <DependentUpon>MovimentoFinanceiro.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Admin\NovaTurma.aspx.cs">
       <DependentUpon>NovaTurma.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Views\Admin\NovaTurma.aspx.designer.cs">
       <DependentUpon>NovaTurma.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\NovoContratos.aspx.cs">
+      <DependentUpon>NovoContratos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Admin\NovoContratos.aspx.designer.cs">
+      <DependentUpon>NovoContratos.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\Admin\Pessoas.aspx.cs">
       <DependentUpon>Pessoas.aspx</DependentUpon>

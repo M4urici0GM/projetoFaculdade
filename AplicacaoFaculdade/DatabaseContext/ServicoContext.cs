@@ -44,6 +44,20 @@ namespace AplicacaoFaculdade.DatabaseContext {
             return dataTable;
         }
 
+        internal bool UpdateContrato(Contrato contrato) {
+            string query = @"
+                UPDATE Contratos SET 
+                    contratoAtivo = @ContratoStatus
+                WHERE contratoId = @ContratoId
+            ";
+            mySqlCommand = new MySqlCommand(query, databaseConnection);
+            mySqlCommand.Parameters.AddWithValue("@ContratoStatus", contrato.Ativo);
+            mySqlCommand.Parameters.AddWithValue("@ContratoId", contrato.Id);
+            AffectedRows = mySqlCommand.ExecuteNonQuery();
+            //TODO: Remover Alunos das turmas quando contrato cancelado.
+            return (AffectedRows > 0);
+        }
+
         public Servico GetServicos(Servico servico) {
             string query = @"
                 SELECT * FROM Servicos 
@@ -120,6 +134,64 @@ namespace AplicacaoFaculdade.DatabaseContext {
             return AffectedRows > 0;
         }
 
-        
+        public DataTable GetContratos(bool ativos = true) {
+            DataTable dataTable = new DataTable();
+            string query = @"
+                SELECT *, sum(case when desconto > 0 then round((contratoValor - desconto), 2) else contratoValor end) as valorTotal FROM
+                    (
+                        SELECT *,
+                        SUM(CASE WHEN servicos > 1 THEN ROUND(((contratoValor * 0.1)), 2) else 0 end) AS desconto
+                        FROM (
+                            SELECT contratoId, contratoData, contratoDiaVencimento, pessoaId, pessoaNome, pessoaSobreNome, 
+                            SUM(precoServicoValor) AS contratoValor,
+                            COUNT(servicoId) AS servicos
+                             FROM Contratos
+	                            INNER JOIN Alunos
+		                            ON contratoFkAluno = alunoId
+	                            INNER JOIN Pessoas
+		                            ON alunoFkPessoa = pessoaId
+	                            INNER JOIN ContratoTurma
+		                            ON contratoId = contratoTurmaFkContrato
+	                            INNER JOIN Turmas
+		                            ON contratoTurmaFkTurma = turmaId
+	                            INNER JOIN Servicos
+		                            ON turmaServico = servicoId
+	                            INNER JOIN PrecoServico
+		                            ON servicoId = precoServicoFkServico
+	                            WHERE 
+		                            (precoServicoDataInicial < CURDATE() || precoServicoDataInicial = CURDATE()) 
+                                    AND precoServicoDataFinal IS NULL 
+                                    AND servicoStatus = true 
+                                    AND servicoStatus = true 
+                                    AND turmaStatus = true
+                                    AND contratoAtivo = @ContratoStatus
+	                            GROUP BY
+		                            contratoId
+                            ) as QUERY GROUP BY contratoId
+                    ) AS finalQuery GROUP BY contratoId;";
+            mySqlCommand = new MySqlCommand(query, databaseConnection);
+            mySqlCommand.Parameters.AddWithValue("@ContratoStatus", ativos);
+            mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            mySqlDataAdapter.Fill(dataTable);
+            return dataTable;
+        }
+
+        public Contrato GetContratos(Contrato contrato) {
+            string query = @"SELECT * FROM Contratos WHERE contratoId = @ContratoId";
+            mySqlCommand = new MySqlCommand(query, databaseConnection);
+            mySqlCommand.Parameters.AddWithValue("@ContratoId", contrato.Id);
+            mySqlDataReader = mySqlCommand.ExecuteReader();
+            if (mySqlDataReader.HasRows && mySqlDataReader.Read()) {
+                Contrato _contrato = new Contrato() {
+                    Id = mySqlDataReader.GetInt32(0),
+                    FkAluno = mySqlDataReader.GetInt32(1),
+                    Data = mySqlDataReader.GetDateTime(2),
+                    Vencimento = mySqlDataReader.GetInt32(3),
+                    Ativo = mySqlDataReader.GetBoolean(4)
+                };
+                return _contrato;
+            }
+            return new Contrato();
+        }
     }
 }
